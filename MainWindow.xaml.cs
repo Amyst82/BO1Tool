@@ -20,6 +20,7 @@ namespace bo1tool
         public MainWindow()
         {
             InitializeComponent();
+            UIColors.defaultHightligght = (SolidColorBrush)this.Resources["DefaultHighlightColor"];
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
             gsColorWheel.Palette = GreenScreen.Palette;
         }
@@ -334,13 +335,25 @@ namespace bo1tool
             {
                 var selected = AllPages.SelectedItem as TabItem;
                 TabItem_OnChanged(selected);
+                DoubleAnimation anim = new DoubleAnimation();
+                anim.From = 0;
+                anim.To = 1;
+                anim.Duration = TimeSpan.FromMilliseconds(200);
+                menuGrid.BeginAnimation(OpacityProperty, anim);
+                ((Grid)selected.Content).BeginAnimation(OpacityProperty, anim);
+                if (selected.Header.ToString() == "MENU")
+                { 
+                    this.Width = this.MinWidth = 536;
+                    this.Height = this.MinHeight = 333;
+                    this.MaxWidth = 536;
+                    this.MaxHeight = 333;
+                }
                 if (selected.Header.ToString() == "CFG")
                 {
                     this.Width = this.MinWidth = 416;
                     this.Height = this.MinHeight = 305;
                     this.MaxWidth = 1920;
                     this.MaxHeight = 1080;
-                    
                 }
                 if (selected.Header.ToString() == "THEATRE")
                 {
@@ -494,17 +507,20 @@ namespace bo1tool
 
         #endregion
 
-        private void btn1_Click(object sender, RoutedEventArgs e)
+        private void reloadGame_Click(object sender, RoutedEventArgs e)
         {
-            UIColors.changeThemeColor(this, "Light");
-            //Color color = (Color)ColorConverter.ConvertFromString("#FF141414");
-            //SolidColorBrush themeBrush = new SolidColorBrush(color);
-            //this.Resources["DefaultBackground"] = themeBrush;
-        }
-
-        private void btn2_Click(object sender, RoutedEventArgs e)
-        {
-            UIColors.changeThemeColor(this, "Dark");
+            //if(UIColors.getTheme(this) == "Light")
+            //{
+            //    UIColors.changeThemeColor(this, "Dark");
+            //}
+            //else
+            //{
+            //    UIColors.changeThemeColor(this, "Light");
+            //}
+            Random rnd = new Random();
+            byte r = (byte)rnd.Next((byte)0, (byte)255);
+            Color rndColor = Color.FromArgb(255, (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255));
+            UIColors.changeStyleColor(this, rndColor);
         }
     }//
 }

@@ -119,9 +119,9 @@ namespace bo1tool
                 {
 
                 }
-                else
+                else 
                 {
-                    if (cbuf_addtext_alloc == IntPtr.Zero)
+                    if (MemoryHelper.initizlized && cbuf_addtext_alloc == IntPtr.Zero)
                     {
                         cbuf_addtext_alloc = VirtualAllocEx(MemoryHelper.mem.process.Handle, IntPtr.Zero, (IntPtr)cbuf_addtext_wrapper.Length, AllocationType.Commit | AllocationType.Reserve, MemoryProtection.ExecuteReadWrite);
                         commandbytes = System.Text.Encoding.ASCII.GetBytes(command);

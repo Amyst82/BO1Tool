@@ -257,6 +257,15 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="onodera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="onodera2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="onodera3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterResolveReferences">
     <ItemGroup>

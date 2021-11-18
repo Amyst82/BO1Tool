@@ -12,7 +12,7 @@
         xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark" xmlns:Controls1="clr-namespace:ColorWheel.Controls;assembly=ColorWheel.Controls" x:Name="bo1tool" x:Class="bo1tool.MainWindow"
         xmlns:converters="clr-namespace:bo1tool.Converters"
         mc:Ignorable="d"
-        Title="BO1 Tool" Height="503.667" Width="320.666" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="NoResize" >
+        Title="BO1 Tool" Height="333" Width="536" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="NoResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,15 +35,26 @@
         <Button x:Name="minButton" Content="—" Margin="0,-24,26,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF707071" HorizontalAlignment="Right" Width="24"/>
         <TabControl x:Name="AllPages" x:FieldModifier="public" FontSize="14" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Background="{DynamicResource DefaultBackground}" Margin="0,2,0,0" SelectionChanged="AllPages_SelectionChanged">
             <TabItem Header="MENU">
-                <Grid Background="{DynamicResource DefaultBackground}" Margin="0,0,-3,-5">
-                    <Button x:Name="btn1" Content="Button" HorizontalAlignment="Left" Margin="62,79,0,0" VerticalAlignment="Top" Width="82" Height="30" Foreground="Black" Click="btn1_Click"/>
-                    <Button x:Name="btn2" Content="Button" HorizontalAlignment="Left" Margin="149,79,0,0" VerticalAlignment="Top" Width="82" Height="30" Foreground="Black" Click="btn2_Click"/>
-
+                <Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="0">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="onodera3.png"/>
+                    </Grid.Background>
+                    <Button Content="Restore all" HorizontalAlignment="Left" Margin="153,154,0,0" VerticalAlignment="Top" Width="174" Height="46" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Button x:Name="reloadGame" Content="Reload" HorizontalAlignment="Left" Margin="153,63,0,0" VerticalAlignment="Top" Width="225" Height="45" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17" Click="reloadGame_Click"/>
+                    <Button Content="Load all" HorizontalAlignment="Left" Margin="153,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Button Content="Save all" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Grid HorizontalAlignment="Left" Height="46" Margin="333,154,0,0" VerticalAlignment="Top" Width="45" Background="{DynamicResource DefaultBackgroundOpacity}" Cursor="Hand">
+                        <Viewbox Margin="13,13,11,12">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="{DynamicResource DefaultHighlightColor}" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Height="24" Stretch="Fill" Width="24" />
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItem1" Header="CFG" Margin="2,0,-2,0" TabIndex="0" FontSize="15">
                 <Grid Background="{DynamicResource DefaultBackground}" Margin="0,0,-3,-5">
-                    <local:aTextBox x:Name="singleCfg" Grid.ColumnSpan="1" Height="30" Margin="10,10,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="Single command" FontFamily="Segoe UI Semilight" MouseDoubleClick="TextBox_MouseDoubleClick" CaretBrush="{DynamicResource DefaultHighlightColor}" HintText="Single command" FocusedBrush="{DynamicResource DefaultHighlightColor}" ShowClearButton="True" TextChanged="singleCfg_TextChanged" KeyUp="singleCfg_KeyUp">
+                    <local:aTextBox x:Name="singleCfg" Grid.ColumnSpan="1" Height="30" Margin="10,10,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="Single command" FontFamily="Segoe UI Semilight" MouseDoubleClick="TextBox_MouseDoubleClick" CaretBrush="{DynamicResource DefaultHighlightColor}" HintText="Single command" FocusedBrush="{DynamicResource DefaultHighlightColor}" ShowClearButton="True" TextChanged="singleCfg_TextChanged" KeyUp="singleCfg_KeyUp" BorderBrush="{DynamicResource BackgroundOpaque}">
                         <local:aTextBox.ContextMenu>
                             <ContextMenu Background="{DynamicResource DefaultBackground}" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" HasDropShadow="True" Width="120">
                                 <MenuItem Header="To CFG box" FontSize="17" Width="120" Height="30" Click="appendToCfg"/>
@@ -55,12 +66,12 @@
                         </local:aTextBox.ContextMenu>
                     </local:aTextBox>
                     <Button x:Name="sendSingle" Content="Send" Margin="0,10,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendSingle_Click"/>
-                    <local:aTextBox x:Name="tScaleBox" Grid.ColumnSpan="1" Height="30" Margin="10,47,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="" FontFamily="Segoe UI Semilight" ToolTip="timescale" MouseDoubleClick="TextBox_MouseDoubleClick" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" HintText="timescale" ShowClearButton="True"/>
+                    <local:aTextBox x:Name="tScaleBox" Grid.ColumnSpan="1" Height="30" Margin="10,47,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="" FontFamily="Segoe UI Semilight" ToolTip="timescale" MouseDoubleClick="TextBox_MouseDoubleClick" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" HintText="timescale" ShowClearButton="True" BorderBrush="{DynamicResource BackgroundOpaque}"/>
                     <Button x:Name="sendTscale" Content="Send" Margin="0,47,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendTscale_Click"/>
                     <local:linkButton x:Name="loadCfg" Content="Load CFG" Margin="11,0,268,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="loadCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
                     <local:linkButton x:Name="sendCfg" Content="Send CFG" Margin="140,0,140,7" Background="{DynamicResource DefaultBackground}" Foreground="{DynamicResource DefaultColor}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="sendCfg_Click" HorizontalAlignment="Center" Width="123" Cursor="Hand"/>
                     <local:linkButton x:Name="saveCfg" Content="Save CFG" Margin="269,0,10,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="saveCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
-                    <RichTextBox x:Name="cfgBox" Margin="10,82,10,42" FontSize="16" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource DefaultHighlightColor}" FontFamily="Segoe UI Semilight" Background="{DynamicResource DefaultBackground}" Tag="" MouseDoubleClick="TextBox_MouseDoubleClick" BorderBrush="#FF303355">
+                    <RichTextBox x:Name="cfgBox" Margin="10,82,10,42" FontSize="16" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource DefaultHighlightColor}" FontFamily="Segoe UI Semilight" Background="{DynamicResource DefaultBackground}" Tag="" MouseDoubleClick="TextBox_MouseDoubleClick" BorderBrush="{DynamicResource BackgroundOpaque}">
                         <RichTextBox.Resources>
                             <Style TargetType="{x:Type Paragraph}">
                                 <Setter Property="Margin" Value="0"/>
@@ -94,7 +105,7 @@
                     <Label Content="Green Screen" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" FontSize="17"/>
 
 
-                    <WPFSpark:ToggleSwitch x:Name="gsToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,97,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="#FF191919" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="gsToggle_Checked" Unchecked="gsToggle_Checked"/>
+                    <WPFSpark:ToggleSwitch x:Name="gsToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,97,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="gsToggle_Checked" Unchecked="gsToggle_Checked"/>
                     <Separator HorizontalAlignment="Left" Height="7" Margin="10,130,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
                     <Label Content="Depth" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" FontSize="17"/>
                     <WPFSpark:ToggleSwitch x:Name="depthToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,147,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" IsChecked="True"/>
@@ -119,7 +130,7 @@
                         <Grid Height="{Binding ActualHeight, ElementName=gsColorEx}" Width="{Binding ActualWidth, ElementName=gsColorEx}">
                             <Rectangle Fill="{DynamicResource BackgroundOpaque}" HorizontalAlignment="Left" Height="228" Margin="10,10,0,0" VerticalAlignment="Top" Width="213" RadiusY="19.5" RadiusX="19.5">
                                 <Rectangle.Effect>
-                                    <DropShadowEffect BlurRadius="25" ShadowDepth="0" RenderingBias="Quality" Opacity="0.5"/>
+                                    <DropShadowEffect BlurRadius="19" ShadowDepth="0" RenderingBias="Quality" Opacity="0.5"/>
                                 </Rectangle.Effect>
                             </Rectangle>
                             <Controls1:ColorWheelControl x:Name="gsColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="130" Margin="20,48,0,0" VerticalAlignment="Top" Width="130" MouseDoubleClick="ColorWheel_MouseDoubleClick" ColorsUpdated="gsColorWheel_ColorUpdated"/>

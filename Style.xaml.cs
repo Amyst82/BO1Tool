@@ -18,7 +18,10 @@ namespace bo1tool
         public SolidColorBrush ToBrush
         {
             get { return To == null ? null : new SolidColorBrush(To.Value); }
-            set { To = value?.Color; }
+            set 
+            {
+                To = value?.Color; 
+            }
         }
     }
 
@@ -45,5 +48,19 @@ namespace bo1tool
             t.ToolTip = null;
 
         }
+
+        private void control_OnFocus(object sender, RoutedEventArgs e)
+        {
+            //TextBox t = ((TextBox)((FrameworkElement)sender).TemplatedParent);
+            Control t = ((FrameworkElement)sender).TemplatedParent as Control;
+            if(t.IsFocused)
+                t.BorderBrush = new SolidColorBrush();
+            Window win = Application.Current.Windows[0];
+            ColorAnimation anim = new ColorAnimation();
+            anim.To = ((SolidColorBrush)((win as MainWindow).Resources[t.IsFocused ? "DefaultHighlightColor" : "BackgroundOpaque"])).Color;
+            anim.Duration = TimeSpan.FromMilliseconds(400);
+            t.BorderBrush.BeginAnimation(SolidColorBrush.ColorProperty, anim);
+        }
+       
     }
 }

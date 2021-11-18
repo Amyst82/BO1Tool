@@ -34,7 +34,7 @@ namespace bo1tool
                 new PropertyMetadata(default(string)));
 
 
-        [Description("Brush that will be used to outline the textBox when it is in focus"), Category("Amyst")]
+        [Description("Brush that will be used to outline the textBox when it is in focus"), Category("Brush")]
         public SolidColorBrush FocusedBrush
         {
             get => (SolidColorBrush)GetValue(FocusedBrushProperty);
