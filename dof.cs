@@ -45,7 +45,11 @@ namespace bo1tool
             bool res = false;
             if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())
             {
-                res = (byte)dvars.getDvarByName("r_dof_tweak").Value == (byte)1 ? true : false;
+                dvar_s dvar = dvars.getDvarByName("mvm_fog_custom");
+                if(dvar != null)
+                {
+                    res = (byte)dvar.Value == (byte)1 ? true : false;
+                }
             }  
             return res;
         }

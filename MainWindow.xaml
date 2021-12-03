@@ -12,7 +12,7 @@
         xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark" xmlns:Controls1="clr-namespace:ColorWheel.Controls;assembly=ColorWheel.Controls" x:Name="bo1tool" x:Class="bo1tool.MainWindow"
         xmlns:converters="clr-namespace:bo1tool.Converters"
         mc:Ignorable="d"
-        Title="BO1 Tool" Height="333" Width="536" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="NoResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
+        Title="BO1 Tool" Height="500" Width="451" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="NoResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,7 +35,7 @@
         <Button x:Name="minButton" Content="—" Margin="0,-24,26,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF707071" HorizontalAlignment="Right" Width="24"/>
         <TabControl x:Name="AllPages" x:FieldModifier="public" FontSize="14" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Background="{DynamicResource DefaultBackground}" Margin="0,2,0,0" SelectionChanged="AllPages_SelectionChanged">
             <TabItem Header="MENU">
-                <Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="0">
+                <Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="1">
                     <Grid.Background>
                         <ImageBrush ImageSource="onodera3.png"/>
                     </Grid.Background>
@@ -119,7 +119,7 @@
                     <CheckBox x:Name="cg_drawGun" Content="Remove Gun" HorizontalAlignment="Left" Margin="11,351,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
                     <CheckBox x:Name="r_dobjlimit" Content="Remove Players" HorizontalAlignment="Left" Margin="132,351,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
                     <CheckBox x:Name="r_bloomTweaks" Content="Bloom Tweaks" HorizontalAlignment="Left" Margin="293,377,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-                    <CheckBox Content="Green Sky" HorizontalAlignment="Left" Margin="293,351,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="greenSkyToggle" Content="Green Sky" HorizontalAlignment="Left" Margin="293,351,0,0" VerticalAlignment="Top" Checked="greenSkyToggle_Checked" Unchecked="greenSkyToggle_Checked"/>
                     <CheckBox x:Name="rmvBarrier" Content="Remove Theatre Barrier" HorizontalAlignment="Left" Margin="132,377,0,0" VerticalAlignment="Top"/>
                     <CheckBox x:Name="fx_draw" Content="Remove FX" HorizontalAlignment="Left" Margin="11,377,0,0" VerticalAlignment="Top"  Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
                     <RadioButton Content="None" HorizontalAlignment="Left" Margin="109,300,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" BorderBrush="{DynamicResource DefaultColor}" IsChecked="True" Tag="0" Checked="debugShaderChange"/>
