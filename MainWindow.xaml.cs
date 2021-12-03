@@ -358,7 +358,7 @@ namespace bo1tool
                 if (selected.Header.ToString() == "THEATRE")
                 {
                     this.Width = this.MinWidth = this.MaxWidth = 416;
-                    this.Height = this.MinHeight = this.MaxHeight = 469;
+                    this.Height = this.MinHeight = this.MaxHeight = 440;
                 }
                 if (selected.Header.ToString() == "SUN")
                 {
@@ -398,7 +398,11 @@ namespace bo1tool
         {
             GreenScreen.toggleGS(gsToggle.IsChecked, gsColorWheel.Palette);
         }
-        
+        private void greenSkyToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            GreenScreen.toggleGreenSky(greenSkyToggle.IsChecked);
+        }
+
         bool?[] gsRaiosStates = { false, true, false, false };
         PaletteColor colorBack = null;
         private void cancelClearColor_Click(object sender, RoutedEventArgs e)
@@ -522,5 +526,7 @@ namespace bo1tool
             Color rndColor = Color.FromArgb(255, (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255));
             UIColors.changeStyleColor(this, rndColor);
         }
+
+
     }//
 }

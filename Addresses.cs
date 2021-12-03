@@ -46,6 +46,7 @@ namespace bo1tool
         public static IntPtr lightSpritesOpacity;
         public static IntPtr sunFlareProptection;
         public static IntPtr sunFlare;
+        public static IntPtr skyBoxObj;
 
         #region dvar addresses
         public static IntPtr r_clearColor;
@@ -83,6 +84,8 @@ namespace bo1tool
                 lightSpritesOpacity = BaseAddress + 0x2FF2D1;
                 sunFlareProptection = BaseAddress + 0x33FEE2;
                 sunFlare = BaseAddress + 0x4F5327C;
+                skyBoxObj = BaseAddress + 0x4F6FAEC;
+
             }
         }
         private static void readDvarAddresses()

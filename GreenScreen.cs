@@ -45,7 +45,7 @@ namespace bo1tool
                 else //if green screen is disabled 
                 {
                     dvars.setDvarValueByName("r_bloomTweaks", bloomsTemp);
-                    dvars.setDvarValueByName("r_modelLimit", mLimitTemp);
+                    dvars.setDvarValueByName("r_modelLimit", 1024);
                     dvars.setDvarValueByName("r_skipPvs", (bool)false);
                     dvars.setDvarValueByName("r_lockPvs", (bool)false);
                     dvars.setDvarValueByName("r_zfar", (float)0);
@@ -56,6 +56,23 @@ namespace bo1tool
                 }
             }
         }
+        static int skyBoxPrev = 0;
+        public static void toggleGreenSky(bool? state)
+        {
+            if (state == true) //if green screen is enabled
+            {
+                skyBoxPrev = MemoryHelper.mem.ReadInt(Addresses.skyBoxObj);
+                MemoryHelper.mem.WriteInt(Addresses.skyBoxObj, 0);
+            }
+            else
+            {
+                if(skyBoxPrev != 0)
+                {
+                    MemoryHelper.mem.WriteInt(Addresses.skyBoxObj, skyBoxPrev);
+                }    
+            }
+        }
+
         #region set clear color overloads
         public static void updateClearColor(Palette clearColor)
         {
