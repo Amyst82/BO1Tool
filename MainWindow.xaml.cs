@@ -358,7 +358,7 @@ namespace bo1tool
                 if (selected.Header.ToString() == "THEATRE")
                 {
                     this.Width = this.MinWidth = this.MaxWidth = 416;
-                    this.Height = this.MinHeight = this.MaxHeight = 469;
+                    this.Height = this.MinHeight = this.MaxHeight = 440;
                 }
                 if (selected.Header.ToString() == "SUN")
                 {

@@ -35,8 +35,8 @@ namespace bo1tool
         {
             if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())
             {
-                dvars.setDvarValueByName("r_dof_enable", state ? (byte)1 : (byte)0);
-                dvars.setDvarValueByName("r_dof_tweak", state ? (byte)1 : (byte)0);
+                dvars.setDvarValueByName("r_dof_enable", (bool)state);
+                dvars.setDvarValueByName("r_dof_tweak", (bool)state);
             }
         }
 
@@ -45,7 +45,7 @@ namespace bo1tool
             bool res = false;
             if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())
             {
-                dvar_s dvar = dvars.getDvarByName("mvm_fog_custom");
+                dvar_s dvar = dvars.getDvarByName("r_dof_tweak");
                 if(dvar != null)
                 {
                     res = (byte)dvar.Value == (byte)1 ? true : false;

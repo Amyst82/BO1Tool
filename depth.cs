@@ -8,5 +8,16 @@ namespace bo1tool
 {
     public static class depth
     {
+        public static void toggleDepth(bool? state)
+        {
+            if(state == true)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
     }
 }

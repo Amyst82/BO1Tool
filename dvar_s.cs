@@ -9,8 +9,20 @@ namespace bo1tool
 {
     public static class dvars
     {
+        #region offsets
+        public static int descOffset = 0x04;
+        public static int hashOffset = 0x08;
+        public static int flagsOffset = 0x0C;
+        public static int typeOffset = 0x10;
+        public static int modifiedOffset = 0x14;
+        public static int valueOffset = 0x18;
+        public static int defaultValueOffset = 0x38;
+        public static int minOffset = 0x58;
+        public static int maxOffset = 0x5C;
+        #endregion
+
         #region initialization
-        private static List<dvar_s> dvarList2 = new List<dvar_s>();
+        private static Dictionary<string, IntPtr> dvarList = new Dictionary<string, IntPtr>();
         private static string getText(IntPtr address, int offset)
         {
             string res = "";
@@ -24,35 +36,48 @@ namespace bo1tool
            public IntPtr addy;
         }
 
+        ///<summary>
+        ///Initializer. Recommended to call once on application boot up or reload.
+        ///</summary>
         public static async void initDvarList()
         {
             await Task.Run(() =>
             {
                 IntPtr dvarBase = Addresses.dvarBase;
-                List<addressesList> dvarList = MemoryHelper.mem.ReadStructArray<addressesList>(dvarBase, 3150).ToList();
-                foreach(addressesList a in dvarList)
+                List<addressesList> dvarList_ = MemoryHelper.mem.ReadStructArray<addressesList>(dvarBase, 3150).ToList();
+                dvarList.Clear();
+                foreach (addressesList a in dvarList_)
                 {
-                    dvarList2.Add(new dvar_s(a.addy));
+                    if(a.addy != IntPtr.Zero)
+                        dvarList.Add(getText(a.addy, 0x00), a.addy);
                 }
             });
         }
         #endregion
 
         #region public methods
+        ///<summary>
+        ///Returns an instance of dvar_s class.
+        ///</summary>
         public static dvar_s getDvarByName(string name)
         {
-            dvar_s res = dvarList2.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault();
+            dvar_s res = new dvar_s(dvarList[name]);
             res?.getValues();
             return res;
         }
+
+        ///<summary>
+        ///Fast one because it doesn't create an instance of dvar_s, it just writes to an address directly.
+        ///</summary>
         public static void setDvarValueByName(string name, object value)
         {
             if (MemoryHelper.initizlized)
             {
-                if (dvarList2.Count > 0)
+                if (dvarList.Count > 0)
                 {
-                    dvarList2.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault().Value = value;
-                    dvarList2.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault().Modified = true;
+                    MemoryHelper.mem.WriteGen(dvarList[name] + valueOffset, value);
+                    MemoryHelper.mem.WriteBoolean(dvarList[name] + modifiedOffset, true);
+
                 }
             }
         }
@@ -123,23 +148,11 @@ namespace bo1tool
         private int dvarType;
         public string dvarTypeString; //is used for representing type enum value readable as string
         private bool modified;
-        private object currentValue = (byte)0;
+        private object currentValue;
         public object defaultValue;
         private object minValue;
         private object maxValue;
 
-        #endregion
-
-        #region offsets
-        private int descOffset = 0x04;
-        private int hashOffset = 0x08;
-        private int flagsOffset = 0x0C;
-        private int typeOffset = 0x10;
-        private int modifiedOffset = 0x14;
-        private int valueOffset = 0x18;
-        private int defaultValueOffset = 0x38;
-        private int minOffset = 0x58;
-        private int maxOffset = 0x5C;
         #endregion
 
         private IntPtr dvarBase = Addresses.dvarBase; //this is for me
@@ -149,10 +162,10 @@ namespace bo1tool
             {
                 Address = address;
                 name = getText(Address, 0x00);
-                desc = getText(Address, descOffset);
-                hash = MemoryHelper.mem.ReadInt(Address + hashOffset); //hash (idk what is used for but lets keep it :D)
-                flags = MemoryHelper.mem.ReadInt(Address + flagsOffset); //flags (DVAR_CHEAT, DVAR_EXTERNAL and etc. but i got no enum for it)
-                dvarType = MemoryHelper.mem.ReadInt(Address + typeOffset); //dvar type value of types enum
+                desc = getText(Address, dvars.descOffset);
+                hash = MemoryHelper.mem.ReadInt(Address + dvars.hashOffset); //hash (idk what is used for but lets keep it :D)
+                flags = MemoryHelper.mem.ReadInt(Address + dvars.flagsOffset); //flags (DVAR_CHEAT, DVAR_EXTERNAL and etc. but i got no enum for it)
+                dvarType = MemoryHelper.mem.ReadInt(Address + dvars.typeOffset); //dvar type value of types enum
                 dvarTypeString = ((dvar_Types)dvarType).ToString(); //representing type value from enum as string
             }
         }
@@ -180,7 +193,7 @@ namespace bo1tool
             set
             {
                 desc = value;
-                IntPtr dvarDescAddy = (IntPtr)MemoryHelper.mem.ReadInt(Address + descOffset);
+                IntPtr dvarDescAddy = (IntPtr)MemoryHelper.mem.ReadInt(Address + dvars.descOffset);
                 MemoryHelper.mem.WriteStringASCII(dvarDescAddy, desc);
             }
         }
@@ -193,7 +206,7 @@ namespace bo1tool
             set
             {
                 hash = value;
-                MemoryHelper.mem.WriteInt(Address + hashOffset, value);
+                MemoryHelper.mem.WriteInt(Address + dvars.hashOffset, value);
             }
         }
         public int Flags
@@ -205,7 +218,7 @@ namespace bo1tool
             set
             {
                 flags = value;
-                MemoryHelper.mem.WriteInt(Address + flagsOffset, value);
+                MemoryHelper.mem.WriteInt(Address + dvars.flagsOffset, value);
             }
         }
         public int Type
@@ -217,7 +230,7 @@ namespace bo1tool
             set
             {
                 dvarType = value;
-                MemoryHelper.mem.WriteInt(Address + typeOffset, value);
+                MemoryHelper.mem.WriteInt(Address + dvars.typeOffset, value);
             }
         }
         public bool Modified
@@ -229,7 +242,7 @@ namespace bo1tool
             set
             {
                 modified = value;
-                MemoryHelper.mem.WriteBoolean(Address + modifiedOffset, value);
+                MemoryHelper.mem.WriteBoolean(Address + dvars.modifiedOffset, value);
             }
         }
 
@@ -249,39 +262,39 @@ namespace bo1tool
                     case "BOOL":
                         if(value is byte)
                         {
-                            MemoryHelper.mem.WriteByte(Address + valueOffset, (byte)value);
+                            MemoryHelper.mem.WriteByte(Address + dvars.valueOffset, (byte)value);
                         }
                         else if(value is Boolean)
                         {
-                            MemoryHelper.mem.WriteBoolean(Address + valueOffset, (bool)value);
+                            MemoryHelper.mem.WriteBoolean(Address + dvars.valueOffset, (bool)value);
                         }
                         break;
                     case "FLOAT":
-                        MemoryHelper.mem.WriteFloat(Address + valueOffset, (float)value);
+                        MemoryHelper.mem.WriteFloat(Address + dvars.valueOffset, (float)value);
                         break;
                     case "INT":
-                        MemoryHelper.mem.WriteInt(Address + valueOffset, (int)value);
+                        MemoryHelper.mem.WriteInt(Address + dvars.valueOffset, (int)value);
                         break;
                     case "ENUM":
-                        MemoryHelper.mem.WriteByte(Address + valueOffset, (byte)value);
+                        MemoryHelper.mem.WriteByte(Address + dvars.valueOffset, (byte)value);
                         break;
                     case "FLOAT_2":
-                        MemoryHelper.mem.WriteStruct(Address + valueOffset, (dvarVec2)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarVec2)value);
                         break;
                     case "FLOAT_3":
-                        MemoryHelper.mem.WriteStruct(Address + valueOffset, (dvarVec3)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarVec3)value);
                         break;
                     case "FLOAT3":
-                        MemoryHelper.mem.WriteStruct(Address + valueOffset, (dvarVec3)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarVec3)value);
                         break;
                     case "FLOAT3_":
-                        MemoryHelper.mem.WriteStruct(Address + valueOffset, (dvarVec3)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarVec3)value);
                         break;
                     case "FLOAT_4":
-                        MemoryHelper.mem.WriteStruct(Address + valueOffset, (dvarVec4)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarVec4)value);
                         break;
                     case "COLOR":
-                        MemoryHelper.mem.WriteStruct(Address+valueOffset, (dvarColor)value);
+                        MemoryHelper.mem.WriteStruct(Address + dvars.valueOffset, (dvarColor)value);
                         break;
                     default:
                         break;
@@ -294,58 +307,58 @@ namespace bo1tool
         {
             if (dvarType == 0)
             {
-                currentValue = (byte)MemoryHelper.mem.ReadByte(Address + valueOffset);
+                currentValue = (byte)MemoryHelper.mem.ReadByte(Address + dvars.valueOffset);
                 minValue = (byte)0;
                 maxValue = (byte)1;
-                defaultValue = MemoryHelper.mem.ReadByte(Address + defaultValueOffset);
+                defaultValue = MemoryHelper.mem.ReadByte(Address + dvars.defaultValueOffset);
             }
             if (dvarType == 1)
             {
-                currentValue = (float)MemoryHelper.mem.ReadFloat(Address + valueOffset);
-                minValue = (float)MemoryHelper.mem.ReadFloat(Address + minOffset);
-                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + maxOffset);
-                defaultValue = (float)MemoryHelper.mem.ReadFloat(Address + defaultValueOffset);
+                currentValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.valueOffset);
+                minValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.minOffset);
+                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.maxOffset);
+                defaultValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.defaultValueOffset);
             }
             else if (dvarType == 2)
             {
-                currentValue = MemoryHelper.mem.ReadStruct<dvarVec2>(Address + valueOffset);
-                minValue = (float)MemoryHelper.mem.ReadFloat(Address + minOffset);
-                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + maxOffset);
-                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec2>(Address + defaultValueOffset);
+                currentValue = MemoryHelper.mem.ReadStruct<dvarVec2>(Address + dvars.valueOffset);
+                minValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.minOffset);
+                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.maxOffset);
+                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec2>(Address + dvars.defaultValueOffset);
             }
             else if (dvarType == 3 || dvarType == 10 || dvarType == 11)
             {
-                currentValue = MemoryHelper.mem.ReadStruct<dvarVec3>(Address + valueOffset);
-                minValue = (float)MemoryHelper.mem.ReadFloat(Address + minOffset);
-                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + maxOffset);
-                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec3>(Address + defaultValueOffset);
+                currentValue = MemoryHelper.mem.ReadStruct<dvarVec3>(Address + dvars.valueOffset);
+                minValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.minOffset);
+                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.maxOffset);
+                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec3>(Address + dvars.defaultValueOffset);
             }
             else if (dvarType == 4)
             {
-                currentValue = MemoryHelper.mem.ReadStruct<dvarVec4>(Address + valueOffset);
-                minValue = (float)MemoryHelper.mem.ReadFloat(Address + minOffset);
-                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + maxOffset);
-                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec4>(Address + defaultValueOffset);
+                currentValue = MemoryHelper.mem.ReadStruct<dvarVec4>(Address + dvars.valueOffset);
+                minValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.minOffset);
+                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.maxOffset);
+                defaultValue = MemoryHelper.mem.ReadStruct<dvarVec4>(Address + dvars.defaultValueOffset);
             }
             else if (dvarType == 5)
             {
-                currentValue = (int)MemoryHelper.mem.ReadInt(Address + valueOffset);
-                minValue = (int)MemoryHelper.mem.ReadInt(Address + minOffset);
-                maxValue = (int)MemoryHelper.mem.ReadInt(Address + maxOffset);
-                defaultValue = (int)MemoryHelper.mem.ReadInt(Address + defaultValueOffset);
+                currentValue = (int)MemoryHelper.mem.ReadInt(Address + dvars.valueOffset);
+                minValue = (int)MemoryHelper.mem.ReadInt(Address + dvars.minOffset);
+                maxValue = (int)MemoryHelper.mem.ReadInt(Address + dvars.maxOffset);
+                defaultValue = (int)MemoryHelper.mem.ReadInt(Address + dvars.defaultValueOffset);
             }
             else if (dvarType == 6)
             {
-                currentValue = (byte)MemoryHelper.mem.ReadByte(Address + valueOffset);
-                defaultValue = MemoryHelper.mem.ReadByte(Address + defaultValueOffset);
+                currentValue = (byte)MemoryHelper.mem.ReadByte(Address + dvars.valueOffset);
+                defaultValue = MemoryHelper.mem.ReadByte(Address + dvars.defaultValueOffset);
             }
 
             else if (dvarType == 8)
             {
-                currentValue = MemoryHelper.mem.ReadStruct<dvarColor>(Address + valueOffset);
-                minValue = (float)MemoryHelper.mem.ReadFloat(Address + minOffset);
-                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + maxOffset);
-                defaultValue = MemoryHelper.mem.ReadStruct<dvarColor>(Address + defaultValueOffset);
+                currentValue = MemoryHelper.mem.ReadStruct<dvarColor>(Address + dvars.valueOffset);
+                minValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.minOffset);
+                maxValue = (float)MemoryHelper.mem.ReadFloat(Address + dvars.maxOffset);
+                defaultValue = MemoryHelper.mem.ReadStruct<dvarColor>(Address + dvars.defaultValueOffset);
             }
         }
         private string getText(IntPtr address, int offset)
