@@ -49,7 +49,7 @@ namespace bo1tool
                 foreach (addressesList a in dvarList_)
                 {
                     if(a.addy != IntPtr.Zero)
-                        dvarList.Add(getText(a.addy, 0x00), a.addy);
+                        dvarList.Add(getText(a.addy, 0x00).ToLower(), a.addy);
                 }
             });
         }
@@ -61,9 +61,22 @@ namespace bo1tool
         ///</summary>
         public static dvar_s getDvarByName(string name)
         {
-            dvar_s res = new dvar_s(dvarList[name]);
+            dvar_s res = new dvar_s(dvarList[name.ToLower()]);
             res?.getValues();
             return res;
+        }
+
+        ///<summary>
+        ///Returns the address of a certain dvar.
+        ///</summary>
+        public static IntPtr getDvarAddressByName(string name)
+        {
+            return dvarList[name.ToLower()];
+        }
+
+        public static float getDvarValueByName(string name)
+        {
+            return MemoryHelper.mem.ReadFloat(getDvarAddressByName(name.ToLower()));
         }
 
         ///<summary>
@@ -75,8 +88,8 @@ namespace bo1tool
             {
                 if (dvarList.Count > 0)
                 {
-                    MemoryHelper.mem.WriteGen(dvarList[name] + valueOffset, value);
-                    MemoryHelper.mem.WriteBoolean(dvarList[name] + modifiedOffset, true);
+                    MemoryHelper.mem.WriteGen(dvarList[name.ToLower()] + valueOffset, value);
+                    MemoryHelper.mem.WriteBoolean(dvarList[name.ToLower()] + modifiedOffset, true);
 
                 }
             }

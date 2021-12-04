@@ -394,15 +394,17 @@ namespace bo1tool
                 gsColorWheel_ColorUpdated(gsColorWheel, null);
             }
         }
+        //green screen
         private void gsToggle_Checked(object sender, RoutedEventArgs e)
         {
             GreenScreen.toggleGS(gsToggle.IsChecked, gsColorWheel.Palette);
         }
+        //green sky
         private void greenSkyToggle_Checked(object sender, RoutedEventArgs e)
         {
             GreenScreen.toggleGreenSky(greenSkyToggle.IsChecked);
         }
-
+        // green screen color (r_clearColor)
         bool?[] gsRaiosStates = { false, true, false, false };
         PaletteColor colorBack = null;
         private void cancelClearColor_Click(object sender, RoutedEventArgs e)
@@ -444,7 +446,28 @@ namespace bo1tool
                 });
             });
         }
+        //depth
+        private void depthToggle_Checked(object sender, RoutedEventArgs e)
+        {
+            depth.toggleDepth(depthToggle.IsChecked, (float)(depthDistanceSlider.Value));
+            if(depthToggle.IsChecked == true)
+            {
+                greenSkyToggle.IsChecked = false;
+                gsToggle.IsChecked = false;
+                fx_draw.IsChecked = true;
+                r_bloomTweaks.IsChecked = true;
+            }
+            else
+            {
+                fx_draw.IsChecked = false;
+            }
+        }
 
+        private void depthDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            depth.changeDistance((float)(depthDistanceSlider.Value));
+        }
+        //r_debugShader
         private void debugShaderChange(object sender, RoutedEventArgs e)
         {
             if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())

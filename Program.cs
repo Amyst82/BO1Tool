@@ -35,6 +35,7 @@ namespace bo1tool
                 if (stream == null)
                     return null;
 
+
                 byte[] assemblyRawBytes = new byte[stream.Length];
                 stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
                 return Assembly.Load(assemblyRawBytes);
