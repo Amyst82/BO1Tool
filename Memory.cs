@@ -809,9 +809,15 @@ namespace bo1tool
 
         public void WriteGen(IntPtr Address, object Value)
         {
-
-            var bytes = typeof(BitConverter).GetMethod("GetBytes", new Type[] { Value.GetType() }).Invoke(null, new object[] { Value });
-            WriteByteArray(Address, (byte[])bytes);
+            if(Value is byte)
+            {
+                WriteByte(Address, (byte)Value);
+            }
+            else
+            {
+                var bytes = typeof(BitConverter).GetMethod("GetBytes", new Type[] { Value.GetType() }).Invoke(null, new object[] { Value });
+                WriteByteArray(Address, (byte[])bytes);
+            }
         }
 
         public void WriteShort(IntPtr Address, short Value)

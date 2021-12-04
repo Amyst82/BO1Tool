@@ -83,3 +83,4 @@ C:\Users\sergi\Source\Repos\Amyst82\BO1Tool\obj\Debug\bo1tool.csproj.CoreCompile
 C:\Users\sergi\Source\Repos\Amyst82\BO1Tool\obj\Debug\bo1tool.csproj.CopyComplete
 C:\Users\sergi\Source\Repos\Amyst82\BO1Tool\obj\Debug\bo1tool.exe
 C:\Users\sergi\Source\Repos\Amyst82\BO1Tool\obj\Debug\bo1tool.pdb
+C:\Users\sergi\Source\Repos\Amyst82\BO1Tool\obj\Debug\bo1tool.csproj.AssemblyReference.cache
