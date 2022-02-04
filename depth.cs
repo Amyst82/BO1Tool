@@ -8,7 +8,7 @@ namespace bo1tool
 {
     public static class depth
     {
-        static float enabled, tweaked, farBlur, farStart, farEnd, nearBlur, nearStart, nearEnd, WMS, WME, bias; //backups
+        static float farBlur, farStart, farEnd, nearBlur, nearStart, nearEnd, WMS, WME; //backups
         public static void toggleDepth(bool? state, float distance)
         {
             if(state == true)
@@ -29,11 +29,11 @@ namespace bo1tool
                 dvars.setDvarValueByName("r_dof_farBlur", (float)9f);
                 dvars.setDvarValueByName("r_dof_farStart", (float)-500f);
                 dvars.setDvarValueByName("r_dof_farEnd", distance);
-                dvars.setDvarValueByName("r_dof_nearBlur", (float)0f);
-                dvars.setDvarValueByName("r_dof_nearStart", (float)0f);
-                dvars.setDvarValueByName("r_dof_nearEnd", (float)0);
-                dvars.setDvarValueByName("r_dof_viewModelStart", (float)0f);
-                dvars.setDvarValueByName("r_dof_viewModelEnd", (float)0);
+                dvars.setDvarValueByName("r_dof_nearBlur", (float)2f);
+                dvars.setDvarValueByName("r_dof_nearStart", (float)1f);
+                dvars.setDvarValueByName("r_dof_nearEnd", (float)1);
+                dvars.setDvarValueByName("r_dof_viewModelStart", (float)0.1f);
+                dvars.setDvarValueByName("r_dof_viewModelEnd", (float)0.1);
                 dvars.setDvarValueByName("r_dof_bias", (float)0);
             }
             else
@@ -50,7 +50,7 @@ namespace bo1tool
                 dvars.setDvarValueByName("r_dof_nearEnd", nearEnd);
                 dvars.setDvarValueByName("r_dof_viewModelStart", WMS);
                 dvars.setDvarValueByName("r_dof_viewModelEnd", WME);
-                dvars.setDvarValueByName("r_dof_bias", (float)0.5);
+                dvars.setDvarValueByName("r_dof_bias", (float)0.5f);
             }
         }
 

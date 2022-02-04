@@ -76,7 +76,7 @@ namespace bo1tool
         #region set clear color overloads
         public static void updateClearColor(Palette clearColor)
         {
-            dvar_s.dvarColor dv = new dvar_s.dvarColor
+            dvars.dvarColor dv = new dvars.dvarColor
             {
                 r = (byte)clearColor.Colors[0].R,
                 g = (byte)clearColor.Colors[0].G,
@@ -90,7 +90,7 @@ namespace bo1tool
         public static void updateClearColor(ColorWheelControl wheel)
         {
             Palette p = wheel.Palette;
-            dvar_s.dvarColor dv = new dvar_s.dvarColor 
+            dvars.dvarColor dv = new dvars.dvarColor 
             {
                 r = (byte)p.Colors[0].R,
                 g = (byte)p.Colors[0].G,
@@ -112,7 +112,7 @@ namespace bo1tool
                     else if (colour[i] < 0)
                         colour[i] = 0;
                 }
-                dvar_s.dvarColor dv = new dvar_s.dvarColor
+                dvars.dvarColor dv = new dvars.dvarColor
                 {
                     r = colour[0],
                     g = colour[1],
@@ -141,7 +141,7 @@ namespace bo1tool
                     g = 0;
                 if (b < 0)
                     b = 0;
-                dvar_s.dvarColor dv = new dvar_s.dvarColor
+                dvars.dvarColor dv = new dvars.dvarColor
                 {
                     r = r,
                     g = g,
