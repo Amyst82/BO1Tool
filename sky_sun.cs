@@ -75,6 +75,8 @@ namespace bo1tool
                 dvars.dvarVec3 sunColor = new dvars.dvarVec3() { x = ((dvars.dvarVec3)sunColorDvar.Value).x * 14, y = ((dvars.dvarVec3)sunColorDvar.Value).y * 14, z = ((dvars.dvarVec3)sunColorDvar.Value).z * 14 };
                 MemoryHelper.mem.WriteStruct(Addresses.SunColor, sunColor);
                 MemoryHelper.mem.WriteStruct(Addresses.SunColor-0x10, sunColor);
+                dvar_s sunDirDvar = dvars.getDvarByName("r_lightTweakSunDirection");
+                sunDirDvar.Modified = true;
             }
         }
     }//
