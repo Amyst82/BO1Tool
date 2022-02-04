@@ -362,20 +362,13 @@ namespace bo1tool
         public IntPtr getLotsPointer(IntPtr address, IntPtr[] offset)
         {
             int finalAdress = 0;
-            if (Process.GetProcessesByName("PointBlank").Length != 0)
+            if (Process.GetProcessesByName("BlackOpsMP").Length != 0)
             {
                 //this.VAM = new VAMemory("PointBlank");
                 for (int i = 0; i < offset.Count(); i++)
                 {
-                    if (i == offset.Count() - 1)
-                    {
-                        finalAdress = ((int)address + (int)offset[i]);
-                    }
-                    else
-                    {
-                        finalAdress = ReadInt((IntPtr)((int)address + (int)offset[i]));
-                        address = (IntPtr)finalAdress;
-                    }
+                    finalAdress = ReadInt(address) + (int)offset[i];
+                    address = (IntPtr)finalAdress;
                 }
             }
             return (IntPtr)(finalAdress);

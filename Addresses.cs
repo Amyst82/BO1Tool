@@ -48,9 +48,13 @@ namespace bo1tool
         public static IntPtr sunFlare;
         public static IntPtr skyBoxObj;
 
+        public static IntPtr fog;
+
         #region dvar addresses
         public static IntPtr r_clearColor;
         public static IntPtr r_clearColor2;
+
+        public static IntPtr SunColor;
         #endregion
 
         public static void ReadAllAddresses()
@@ -69,7 +73,7 @@ namespace bo1tool
 
                 //dvar unlocking
                 dvarUnlock = BaseAddress + 0x4B5BC1;
-                MemoryHelper.mem.WriteByteArray(dvarUnlock, new byte[]{ 0xE9, 0x89, 0x00, 0x00, 0x00, 0x90});
+                MemoryHelper.mem.WriteByteArray(dvarUnlock, new byte[] { 0xE9, 0x89, 0x00, 0x00, 0x00, 0x90 });
                 dvarCount = BaseAddress + 0x345BE74;
                 dvarBase = BaseAddress + 0x345BE88;
                 ingameConsoleUnlock = BaseAddress + 0x2B58F7;
@@ -86,12 +90,17 @@ namespace bo1tool
                 sunFlare = BaseAddress + 0x4F5327C;
                 skyBoxObj = BaseAddress + 0x4F6FAEC;
 
+                fog = MemoryHelper.mem.getPointer(BaseAddress + 0x319714, 0xE0);
+                SunColor = MemoryHelper.mem.getLotsPointer(BaseAddress + 0x42EC4CC, new IntPtr[]{ (IntPtr)0xEC, (IntPtr)0x5C } );
+
+
             }
         }
         private static void readDvarAddresses()
         {
             r_clearColor = MemoryHelper.mem.getPointer(BaseAddress + 0x44A4DEC, 0x18);
             r_clearColor2 = MemoryHelper.mem.getPointer(BaseAddress + 0x44A4DB8, 0x18);
+            SunColor = MemoryHelper.mem.getLotsPointer(BaseAddress + 0x42EC4CC, new IntPtr[] { (IntPtr)0xEC, (IntPtr)0x5C });
         }
     }//
 }

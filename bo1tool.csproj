@@ -172,6 +172,7 @@
     <Compile Include="Addresses.cs" />
     <Compile Include="cfg.cs" />
     <Compile Include="depth.cs" />
+    <Compile Include="fog.cs" />
     <Compile Include="UIColors.cs" />
     <Compile Include="Converters\BoolToOppositeBoolConverter.cs" />
     <Compile Include="Converters\ColorConverter.cs" />

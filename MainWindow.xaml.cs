@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
+
 namespace bo1tool
 {
     public partial class MainWindow : Window
@@ -45,6 +46,8 @@ namespace bo1tool
             rmvBarrier.DataContext = new checkBoxAddress { address = new IntPtr[] { Addresses.theatre_barrier }, type = typeof(bool),
                 desciption = "Removes theatre barrier", checkedValue = (bool)false, unCheckedValue = (bool)true };
             r_skyTransition.DataContext = new checkBoxStates { checkedValue = (float)1, unCheckedValue = (float)0 };
+
+            slider2.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.nearExposure, 0) }, type = typeof(float), desciption = "" };
         }
         #region cfg
         private void loadCfg_Click(object sender, RoutedEventArgs e)
@@ -94,6 +97,8 @@ namespace bo1tool
                 });
             });
         }
+
+       
 
         void setFromCheckBox(object sender, RoutedEventArgs e)
         {
@@ -463,9 +468,19 @@ namespace bo1tool
             }
         }
 
-        private void depthDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private async void depthDistanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            depth.changeDistance((float)(depthDistanceSlider.Value));
+            await Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())
+                    {
+                        depth.changeDistance((float)(depthDistanceSlider.Value));
+                    }
+                });
+            });
+            
         }
         //r_debugShader
         private void debugShaderChange(object sender, RoutedEventArgs e)
@@ -531,9 +546,84 @@ namespace bo1tool
         {
             sky_sun.removeFlare(rmvFlare.IsChecked);
         }
+        private async void sunColorWheel_ColorsUpdated(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MemoryHelper.initizlized)
+                    {
+                        sky_sun.updateSunColor((ColorWheelControl)sender);
+                    }
+                });
+            });
+        }
+        private async void sunDir_ValueChanged(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MemoryHelper.initizlized)
+                    {
+                        sky_sun.updateSunDir((float)sunDirX.Value, (float)sunDirY.Value);
+                    }
+                });
+            });
+        }
+        private void sun_ToCfg_Click(object sender, RoutedEventArgs e)
+        {
+            string res = "//SUN\n";
+            byte state = ((bool)r_skyTransition.IsChecked) ? (byte)1 : (byte)0;
+            res += $"r_skyTransition {state} \n";
+            res += $"r_skyColorTemp {r_skyColorTemp.Value} \n";
+            res += $"r_sky_intensity_factor0 {r_sky_intensity_factor0.Value} \n";
+            res += $"r_lightTweakSunColor {sunColorWheel.Palette.Colors[0].DoubleColor.R/255}  {sunColorWheel.Palette.Colors[0].DoubleColor.G/255} {sunColorWheel.Palette.Colors[0].DoubleColor.B/255} \n";
+            res += $"r_lightTweakSunLight {r_lightTweakSunLight.Value} \n";
+            res += $"r_lightTweakSunDirection {sunDirX.Value} {sunDirY.Value} \n";
+            cfg.appendCfgBoxText(cfgBox, res);
+        }
 
+        private void resetSun_Click(object sender, RoutedEventArgs e)
+        {
+            IEnumerable<UIElement> sss = sunGrid.Children.Cast<UIElement>().Where(x => x is Slider);
+            sky_sun.resetSun(sss, sunDirX, sunDirY);
+            r_skyTransition.IsChecked = false;
+            rmvFlare.IsChecked = false;
+            sunColorWheel.Palette.Colors[0].RgbColor = Colors.White;
+        }
         #endregion
 
+        #region fog
+        private async void fogSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            await Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MemoryHelper.mem != null && MemoryHelper.mem.ProcessIsRunning())
+                    {
+                        fog.writeFog((Slider)sender);
+                    }
+                });
+            });
+        }
+
+        private async void fogNearColorWheel_ColorUpdated(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MemoryHelper.initizlized)
+                    {
+                        
+                    }
+                });
+            });
+        }
+        #endregion
         private void reloadGame_Click(object sender, RoutedEventArgs e)
         {
             //if(UIColors.getTheme(this) == "Light")
@@ -550,6 +640,6 @@ namespace bo1tool
             UIColors.changeStyleColor(this, rndColor);
         }
 
-
+       
     }//
 }
