@@ -12,7 +12,7 @@
         xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark" xmlns:Controls1="clr-namespace:ColorWheel.Controls;assembly=ColorWheel.Controls" x:Name="bo1tool" x:Class="bo1tool.MainWindow"
         xmlns:converters="clr-namespace:bo1tool.Converters"
         mc:Ignorable="d"
-        Title="BO1 Tool" Height="430" Width="461" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="CanResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
+        Title="BO1 Tool" Height="334" Width="545" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="CanResize" BorderBrush="{DynamicResource BackgroundOpaque}" Closing="bo1tool_Closing" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,6 +21,7 @@
             <converters:BoolToOppositeBoolConverter x:Key="oppositeConverter"/>
             <converters:MathConverter x:Key="mathConverter"/>
             <converters:ColorConverter x:Key="colorConvert"/>
+            <converters:colorHexConverter x:Key="colorHexConvert"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -36,20 +37,56 @@
         <TabControl x:Name="AllPages" x:FieldModifier="public" FontSize="14" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Background="{DynamicResource DefaultBackground}" Margin="0,2,0,0" SelectionChanged="AllPages_SelectionChanged">
             <TabItem Header="MENU">
                 <Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="1">
-                    <Grid.Background>
-                        <ImageBrush ImageSource="onodera3.png"/>
-                    </Grid.Background>
-                    <Button Content="Restore all" HorizontalAlignment="Left" Margin="153,154,0,0" VerticalAlignment="Top" Width="174" Height="46" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-                    <Button x:Name="reloadGame" Content="Reload" HorizontalAlignment="Left" Margin="153,63,0,0" VerticalAlignment="Top" Width="225" Height="45" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17" Click="reloadGame_Click"/>
-                    <Button Content="Load all" HorizontalAlignment="Left" Margin="153,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-                    <Button Content="Save all" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-                    <Grid HorizontalAlignment="Left" Height="46" Margin="333,154,0,0" VerticalAlignment="Top" Width="45" Background="{DynamicResource DefaultBackgroundOpacity}" Cursor="Hand">
-                        <Viewbox Margin="13,13,11,12">
-                            <Canvas Width="24" Height="24">
-                                <Path Fill="{DynamicResource DefaultHighlightColor}" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Height="24" Stretch="Fill" Width="24" />
-                            </Canvas>
-                        </Viewbox>
+                    <Grid x:Name="controlsGrid" Background="{DynamicResource DefaultBackground}" MouseDown="controlsGrid_MouseDown">
+                        <Grid.Effect>
+                            <BlurEffect Radius="0" RenderingBias="Quality"/>
+                        </Grid.Effect>
+                        <Button x:Name="reloadGame" Content="Reload" HorizontalAlignment="Left" Margin="153,63,0,0" VerticalAlignment="Top" Width="225" Height="45" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17" Click="reloadGame_Click"/>
+                        <Button x:Name="loadAll" Content="Load all" HorizontalAlignment="Left" Margin="153,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                        <Button x:Name="saveAll" Content="Save all" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                        <Button x:Name="restoreAll" Content="Restore all" HorizontalAlignment="Left" Margin="153,154,0,0" VerticalAlignment="Top" Width="174" Height="46" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                        <Grid x:Name="settingsButton" HorizontalAlignment="Left" Height="46" Margin="333,154,0,0" VerticalAlignment="Top" Width="45" Background="{DynamicResource DefaultBackgroundOpacity}" Cursor="Hand" MouseUp="settingsButton_MouseUp">
+                            <Viewbox Margin="13,13,11,12">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{DynamicResource DefaultHighlightColor}" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Height="24" Stretch="Fill" Width="24" />
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
                     </Grid>
+                    <Grid x:Name="colorControlsGrid" HorizontalAlignment="Left" Height="267" Margin="313,0,0,0" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" Opacity="0" >
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="0.0001" ScaleY="0.0001"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Rectangle Fill="{DynamicResource DefaultBackgroundOpaque}" HorizontalAlignment="Left" Height="235" Margin="15,17,0,0" VerticalAlignment="Top" Width="170" RadiusY="9.5" RadiusX="9.5">
+                            <Rectangle.Effect>
+                                <DropShadowEffect BlurRadius="25"/>
+                            </Rectangle.Effect>
+                        </Rectangle>
+                        <Controls1:ColorWheelControl x:Name="styleColorWheel" HorizontalAlignment="Left" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Height="132" Margin="20,87,0,0" VerticalAlignment="Top" Width="130" ColorsUpdated="styleColorWheel_ColorsUpdated"/>
+                        <Label Content="Theme" HorizontalAlignment="Left" Margin="86,22,0,0" VerticalAlignment="Top" FontSize="12" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                        <RadioButton Content="Dark" HorizontalAlignment="Left" Margin="25,37,0,0" VerticalAlignment="Top" IsChecked="True" Background="{DynamicResource DefaultHighlightColor}" BorderBrush="{DynamicResource DefaultColor}" Checked="themebutton_Checked"/>
+                        <RadioButton Content="Light" HorizontalAlignment="Left" Margin="80,37,0,0" VerticalAlignment="Top"  Background="{DynamicResource DefaultHighlightColor}" BorderBrush="{DynamicResource DefaultColor}" Checked="themebutton_Checked"/>
+                        <RadioButton Content="Fnc" HorizontalAlignment="Left" Margin="133,37,0,0" VerticalAlignment="Top"  Background="{DynamicResource DefaultHighlightColor}" BorderBrush="{DynamicResource DefaultColor}" Checked="themebutton_Checked"/>
+                        <Label Content="Style" HorizontalAlignment="Left" Margin="88,68,0,0" VerticalAlignment="Top" FontSize="12" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                        <Separator HorizontalAlignment="Left" Height="5" Margin="32,60,0,0" VerticalAlignment="Top" Width="138" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                        <local:aTextBox x:Name="styleColorHexBox" Grid.ColumnSpan="1" HorizontalAlignment="Left" Margin="60,224,0,20" TextWrapping="Wrap" Text="{Binding ElementName=styleColorWheel, Path=Palette.Colors[0].RgbColor, Mode=TwoWay}" Width="80" Background="{DynamicResource DefaultBackground}" TextChanged="styleColorHexBox_TextChanged"/>
+                        <Slider x:Name="styleColorBrightnessSlider" HorizontalAlignment="Left" Margin="90,147,-40,0" VerticalAlignment="Top" Height="22" Width="150" RenderTransformOrigin="0.5,0.5" Maximum="255" Value="255" ValueChanged="styleColorBrightnessSlider_ValueChanged">
+                            <Slider.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-90"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Slider.RenderTransform>
+                        </Slider>
+                    </Grid>
+
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabItem1" Header="CFG" Margin="2,0,-2,0" TabIndex="0" FontSize="15">

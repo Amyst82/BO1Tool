@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Color = System.Windows.Media.Color;
 
 namespace bo1tool
 {
@@ -16,14 +18,27 @@ namespace bo1tool
             return defaultHightligght;
         }
 
+        public static string getStyleColorString(MainWindow main)
+        {
+            SolidColorBrush styleBrush = (SolidColorBrush)main.Resources["DefaultColor"];
+            System.Drawing.Color myColor = System.Drawing.Color.FromArgb(styleBrush.Color.A, styleBrush.Color.R, styleBrush.Color.G, styleBrush.Color.B);
+            return ColorTranslator.ToHtml(myColor);
+        }
+        public static string getThemeColorString(MainWindow main)
+        {
+            SolidColorBrush styleBrush = (SolidColorBrush)main.Resources["DefaultColor"];
+            System.Drawing.Color myColor = System.Drawing.Color.FromArgb(styleBrush.Color.A, styleBrush.Color.R, styleBrush.Color.G, styleBrush.Color.B);
+            return ColorTranslator.ToHtml(myColor);
+        }
+
         public static string getTheme(MainWindow main)
         {
             SolidColorBrush theme = (SolidColorBrush)main.Resources["DefaultBackground"];
-            if (theme.Color == (Color)ColorConverter.ConvertFromString("#FFF5F5F5"))
+            if (theme.Color == (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFF5F5F5"))
             {
                 return "Light";
             }
-            else if (theme.Color == (Color)ColorConverter.ConvertFromString("#FF0E0F1A"))
+            else if (theme.Color == (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF161524"))
             {
                 return "Dark";
             }
@@ -36,40 +51,40 @@ namespace bo1tool
 
         private static Color getThemeColor(string themeString)
         {
-            Color clr = (Color)ColorConverter.ConvertFromString("#FF0E0F1A");
+            Color clr = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF0E0F1A");
             if (themeString == "Light")
             {
-                clr = (Color)ColorConverter.ConvertFromString("#FFF5F5F5");
+                clr = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFF5F5F5");
             }
             else if(themeString =="Dark")
             {
-                clr = (Color)ColorConverter.ConvertFromString("#FF0E0F1A");
+                clr = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF161524");//("#FF0E0F1A");
             }
             else if(themeString == "fncTheme")
             {
-                clr = (Color)ColorConverter.ConvertFromString("#FF141414");
+                clr = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF141414");
             }
             return clr;
         }
         private static void setThemeOpacity(MainWindow main, string themeString)
         {
-            Color opacityColor = (Color)ColorConverter.ConvertFromString("#19616191");
-            Color opacityColor2 = (Color)ColorConverter.ConvertFromString("#FF202335");
+            Color opacityColor = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#19616191");
+            Color opacityColor2 = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF202335");
 
             if (themeString == "Light")
             {
-                opacityColor = (Color)ColorConverter.ConvertFromString("#19313131");
-                opacityColor2 = (Color)ColorConverter.ConvertFromString("#FFFFFFFF");
+                opacityColor = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#19313131");
+                opacityColor2 = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFFFFFF");
             }
             else if (themeString == "Dark")
             {
-                opacityColor = (Color)ColorConverter.ConvertFromString("#19616191");
-                opacityColor2 = (Color)ColorConverter.ConvertFromString("#FF202335");
+                opacityColor = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#19616191");
+                opacityColor2 = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF202335");
             }
             else if (themeString == "fncTheme")
             {
-                opacityColor = (Color)ColorConverter.ConvertFromString("#19212121");
-                opacityColor2 = (Color)ColorConverter.ConvertFromString("#FF707070");
+                opacityColor = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#19212121");
+                opacityColor2 = (Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF707070");
 
                 SolidColorBrush styleBrush = new SolidColorBrush(Colors.White);
                 main.Resources["DefaultAccentColor"] = styleBrush;
@@ -79,7 +94,11 @@ namespace bo1tool
             main.Resources["DefaultBackgroundOpacity"] = themeOpacityBrush;
             main.Resources["BackgroundOpaque"] = themeOpacityBrush2;
         }
-
+        public static void changeStyleColorFromString(MainWindow main, string styleString)
+        {
+            Color Color = (Color)System.Windows.Media.ColorConverter.ConvertFromString(styleString);
+            changeStyleColor(main, Color);
+        }
         public static void changeStyleColor(MainWindow main, Color color)
         {
             int r = (int)color.R + 80;
