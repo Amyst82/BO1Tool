@@ -28,6 +28,7 @@ namespace bo1tool
 
         private void bo1tool_Loaded(object sender, RoutedEventArgs e)
         {
+            AllPages.SelectedIndex = 0;
             MemoryHelper.initMem();
             Addresses.ReadAllAddresses();
             dvars.initDvarList();
@@ -47,7 +48,13 @@ namespace bo1tool
                 desciption = "Removes theatre barrier", checkedValue = (bool)false, unCheckedValue = (bool)true };
             r_skyTransition.DataContext = new checkBoxStates { checkedValue = (float)1, unCheckedValue = (float)0 };
 
-            slider2.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.nearExposure, 0) }, type = typeof(float), desciption = "" };
+            fogStartSlider.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.fogStart, 0) }, type = typeof(float), desciption = "Fog start" };
+            fogHeightSlider.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.fogHeight, 0) }, type = typeof(float), desciption = "Fog height" };
+            fogNearExpSlider.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.nearExposure, 0) }, type = typeof(float), desciption = "Fog near exposure" };
+            fogFarExpSlider.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.farExposure, 0) }, type = typeof(float), desciption = "Fog far exposure" };
+
+            fogNearColorWheel.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.nearColor, 0) }, type = typeof(dvars.dvarVec3), desciption = "Fog near color" };
+            fogFarColorWheel.DataContext = new Address() { address = new IntPtr[] { MemoryHelper.mem.GetStructMemberAddress<fog.fog_struct>(Addresses.fog, fog => fog.farColor, 0) }, type = typeof(dvars.dvarVec3), desciption = "Fog far color" };
         }
         #region cfg
         private void loadCfg_Click(object sender, RoutedEventArgs e)
@@ -360,6 +367,11 @@ namespace bo1tool
                     this.MaxWidth = 1920;
                     this.MaxHeight = 1080;
                 }
+                if (selected.Header.ToString() == "FOG")
+                {
+                    this.Width = this.MinWidth = this.MaxWidth = 461;
+                    this.Height = this.MinHeight = this.MaxHeight = 431;
+                }
                 if (selected.Header.ToString() == "THEATRE")
                 {
                     this.Width = this.MinWidth = this.MaxWidth = 416;
@@ -596,6 +608,7 @@ namespace bo1tool
         #endregion
 
         #region fog
+        bool areColorsLinked = false;
         private async void fogSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             await Task.Run(() =>
@@ -610,7 +623,7 @@ namespace bo1tool
             });
         }
 
-        private async void fogNearColorWheel_ColorUpdated(object sender, EventArgs e)
+        private async void fogColorWheel_ColorUpdated(object sender, EventArgs e)
         {
             await Task.Run(() =>
             {
@@ -618,11 +631,72 @@ namespace bo1tool
                 {
                     if (MemoryHelper.initizlized)
                     {
-                        
+                        fog.writeFogColor((ColorWheelControl)sender);
                     }
                 });
             });
         }
+
+
+        private void LinkColors_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            areColorsLinked = !areColorsLinked;
+            syncColors();
+            if (areColorsLinked == true)
+            {
+                linkPath.Fill = (Brush)Resources["DefaultHighlightColor"];
+                linkColorsLine1.Background = (Brush)Resources["DefaultHighlightColor"];
+                linkColorsLine2.Background = (Brush)Resources["DefaultHighlightColor"];
+            }
+            else
+            {
+                linkPath.Fill = (Brush)Resources["DisabledColor"];
+                linkColorsLine1.Background = (Brush)Resources["DisabledColor"];
+                linkColorsLine2.Background = (Brush)Resources["DisabledColor"];
+            }
+        }
+        void syncColors()
+        {
+            if(areColorsLinked)
+            {
+                fogFarColorWheel.Palette = fogNearColorWheel.Palette;
+                fogFarColorBrightness.Value = fogNearColorBrightness.Value;
+            }
+            else
+            {
+                fogNearColorWheel.Palette = Palette;
+                fogFarColorBrightness.Value = 255;
+            }
+        }
+        private void fogFarBrighntess_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                fogFarColorWheel.Palette.Colors[0].Brightness255 = (byte)fogFarColorBrightness.Value;
+                fogColorWheel_ColorUpdated(fogFarColorWheel, e);
+                if (areColorsLinked)
+                {
+                    fogNearColorBrightness.Value = fogFarColorBrightness.Value;
+                }
+            }
+            catch
+            { } 
+        }
+        private void fogNearBrighntess_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                fogNearColorWheel.Palette.Colors[0].Brightness255 = (byte)fogNearColorBrightness.Value;
+                fogColorWheel_ColorUpdated(fogNearColorWheel, e);
+                if (areColorsLinked)
+                {
+                    fogFarColorBrightness.Value = fogNearColorBrightness.Value;
+                }
+            }
+            catch
+            { }
+        }
+
         #endregion
         private void reloadGame_Click(object sender, RoutedEventArgs e)
         {
@@ -640,6 +714,6 @@ namespace bo1tool
             UIColors.changeStyleColor(this, rndColor);
         }
 
-       
+
     }//
 }

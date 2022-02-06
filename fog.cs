@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColorWheel.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace bo1tool
 
             public float padding1; //0x50
             public float padding2; //0x54
-            public float padding3; //0x58
+
 
             public float fogHeight;
             public dvars.dvarVec3 farColor;
@@ -49,6 +50,13 @@ namespace bo1tool
                 }
             }
             catch { }
+        }
+
+        public static void writeFogColor(ColorWheelControl wheel)
+        {
+            Address address = (Address)wheel.DataContext;
+            dvars.dvarVec3 color = new dvars.dvarVec3 { x = (float)wheel.Palette.Colors[0].R / 255, y = (float)wheel.Palette.Colors[0].G / 255, z = (float)wheel.Palette.Colors[0].B / 255, };
+            MemoryHelper.mem.WriteStruct(address.address[0], (dvars.dvarVec3)color);
         }
     }
 }
