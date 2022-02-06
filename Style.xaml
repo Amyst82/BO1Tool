@@ -16,9 +16,9 @@
     <SolidColorBrush x:Key="TitleColor" Color="#3FFFFFFF"/>
     
     <!-- Light Theme = #FFF5F5F5 -->
-    <SolidColorBrush x:Key="DefaultBackground" Color="#FF13151B"/>
+    <SolidColorBrush x:Key="DefaultBackground" Color="#FF161524"/>
 
-    <SolidColorBrush x:Key="DefaultBackgroundOpaque" Color="#FF13151B"/>
+    <SolidColorBrush x:Key="DefaultBackgroundOpaque" Color="#FF161524"/>
     <SolidColorBrush x:Key="DefaultBackgroundOpacity" Color="#19616191"/>
     <SolidColorBrush x:Key="BackgroundOpaque" Color="#FF202335"/>
     <SolidColorBrush x:Key="MouseHover" Color="#0F96929D"/>
@@ -235,10 +235,10 @@
                             <Setter TargetName="TextBlock" Property="TextBlock.Foreground" Value="{DynamicResource DefaultAccentColor}"/>
                             <Setter Property="BorderThickness" Value="2"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
+                        <!--<Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="Black"/>
                             <Setter TargetName="Rectangle" Property="Fill" Value="{DynamicResource DisabledColor}"/>
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="TextBlock" Property="TextBlock.Foreground" Value="White"/>
                         </Trigger>

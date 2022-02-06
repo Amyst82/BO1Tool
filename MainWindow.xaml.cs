@@ -3,6 +3,7 @@ using ColorWheel.Core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-
+using System.Windows.Media.Effects;
 
 namespace bo1tool
 {
@@ -28,20 +29,31 @@ namespace bo1tool
 
         private void bo1tool_Loaded(object sender, RoutedEventArgs e)
         {
+            initSettings();
             AllPages.SelectedIndex = 0;
             MemoryHelper.initMem();
             Addresses.ReadAllAddresses();
             dvars.initDvarList();
             setDataContext();
         }
-
+        private void bo1tool_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            toolSettings.saveSets(this);
+        }
+        void initSettings()
+        {
+            if (File.Exists(@"C:\Users\sergi\source\repos\Amyst82\BO1Tool\bin\Debug\settings.cache"))
+            {
+                toolSettings.loadSets(this);
+            }
+        }
         void setDataContext()
         {
             singleCfg.DataContext = new String("".ToCharArray()); //used for "to cfg box" function on context menu
             tScaleBox.DataContext = new String("timescale ".ToCharArray());
 
             cg_drawGun.DataContext = new checkBoxStates { checkedValue = (bool)false, unCheckedValue = (bool)true };
-            r_dobjlimit.DataContext = new checkBoxStates {checkedValue = (int)0, unCheckedValue = (int)1024 };
+            r_dobjlimit.DataContext = new checkBoxStates { checkedValue = (int)0, unCheckedValue = (int)1024 };
             fx_draw.DataContext = new checkBoxStates { checkedValue = (bool)false, unCheckedValue = (bool)true };
             r_bloomTweaks.DataContext = new checkBoxStates { checkedValue = (bool)true, unCheckedValue = (bool)false };
             rmvBarrier.DataContext = new checkBoxAddress { address = new IntPtr[] { Addresses.theatre_barrier }, type = typeof(bool),
@@ -105,7 +117,7 @@ namespace bo1tool
             });
         }
 
-       
+
 
         void setFromCheckBox(object sender, RoutedEventArgs e)
         {
@@ -114,22 +126,22 @@ namespace bo1tool
                 CheckBox control = (CheckBox)sender;
                 if (control.DataContext != null)
                 {
-                    if(control.DataContext is checkBoxAddress)
+                    if (control.DataContext is checkBoxAddress)
                     {
                         checkBoxAddress a = (checkBoxAddress)control.DataContext;
                         IntPtr address = a.address[0];
-                        foreach(IntPtr addy in a.address)
+                        foreach (IntPtr addy in a.address)
                         {
                             object value = control.IsChecked == true ? a.checkedValue : a.unCheckedValue;
                             MemoryHelper.mem.WriteGen(addy, value);
                         }
                     }
-                    else if(control.DataContext is checkBoxStates)
+                    else if (control.DataContext is checkBoxStates)
                     {
                         checkBoxStates valuesToWrite = (checkBoxStates)control.DataContext;
                         object value = control.IsChecked == true ? valuesToWrite.checkedValue : valuesToWrite.unCheckedValue;
                         dvars.getDvarByName(control.Name).Value = value;
-                    }  
+                    }
                 }
                 else
                 {
@@ -340,7 +352,7 @@ namespace bo1tool
         #endregion
 
         #region On Pages Change
-        
+
         private void AllPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.OriginalSource is TabControl) //if this event fired from TabControl then enter
@@ -351,10 +363,10 @@ namespace bo1tool
                 anim.From = 0;
                 anim.To = 1;
                 anim.Duration = TimeSpan.FromMilliseconds(200);
-                menuGrid.BeginAnimation(OpacityProperty, anim);
+                //menuGrid.BeginAnimation(OpacityProperty, anim);
                 ((Grid)selected.Content).BeginAnimation(OpacityProperty, anim);
                 if (selected.Header.ToString() == "MENU")
-                { 
+                {
                     this.Width = this.MinWidth = 536;
                     this.Height = this.MinHeight = 333;
                     this.MaxWidth = 536;
@@ -467,7 +479,7 @@ namespace bo1tool
         private void depthToggle_Checked(object sender, RoutedEventArgs e)
         {
             depth.toggleDepth(depthToggle.IsChecked, (float)(depthDistanceSlider.Value));
-            if(depthToggle.IsChecked == true)
+            if (depthToggle.IsChecked == true)
             {
                 greenSkyToggle.IsChecked = false;
                 gsToggle.IsChecked = false;
@@ -492,7 +504,7 @@ namespace bo1tool
                     }
                 });
             });
-            
+
         }
         //r_debugShader
         private void debugShaderChange(object sender, RoutedEventArgs e)
@@ -591,7 +603,7 @@ namespace bo1tool
             res += $"r_skyTransition {state} \n";
             res += $"r_skyColorTemp {r_skyColorTemp.Value} \n";
             res += $"r_sky_intensity_factor0 {r_sky_intensity_factor0.Value} \n";
-            res += $"r_lightTweakSunColor {sunColorWheel.Palette.Colors[0].DoubleColor.R/255}  {sunColorWheel.Palette.Colors[0].DoubleColor.G/255} {sunColorWheel.Palette.Colors[0].DoubleColor.B/255} \n";
+            res += $"r_lightTweakSunColor {sunColorWheel.Palette.Colors[0].DoubleColor.R / 255}  {sunColorWheel.Palette.Colors[0].DoubleColor.G / 255} {sunColorWheel.Palette.Colors[0].DoubleColor.B / 255} \n";
             res += $"r_lightTweakSunLight {r_lightTweakSunLight.Value} \n";
             res += $"r_lightTweakSunDirection {sunDirX.Value} {sunDirY.Value} \n";
             cfg.appendCfgBoxText(cfgBox, res);
@@ -657,7 +669,7 @@ namespace bo1tool
         }
         void syncColors()
         {
-            if(areColorsLinked)
+            if (areColorsLinked)
             {
                 fogFarColorWheel.Palette = fogNearColorWheel.Palette;
                 fogFarColorBrightness.Value = fogNearColorBrightness.Value;
@@ -680,7 +692,7 @@ namespace bo1tool
                 }
             }
             catch
-            { } 
+            { }
         }
         private void fogNearBrighntess_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -700,20 +712,125 @@ namespace bo1tool
         #endregion
         private void reloadGame_Click(object sender, RoutedEventArgs e)
         {
-            //if(UIColors.getTheme(this) == "Light")
-            //{
-            //    UIColors.changeThemeColor(this, "Dark");
-            //}
-            //else
-            //{
-            //    UIColors.changeThemeColor(this, "Light");
-            //}
-            Random rnd = new Random();
-            byte r = (byte)rnd.Next((byte)0, (byte)255);
-            Color rndColor = Color.FromArgb(255, (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255), (byte)rnd.Next((byte)0, (byte)255));
-            UIColors.changeStyleColor(this, rndColor);
+         
         }
 
+        private void settingsButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            DoubleAnimation animation0 = new DoubleAnimation(0, 15, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+            controlsGrid.Effect.BeginAnimation(BlurEffect.RadiusProperty, animation0);
 
+            DoubleAnimation animation1 = new DoubleAnimation(0, 1, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+            var t = colorControlsGrid.RenderTransform as ScaleTransform;
+            if (t == null)
+            {
+                colorControlsGrid.RenderTransform = t = new ScaleTransform(1d, 1d)
+                {
+                    CenterX = 0.5d,
+                    CenterY = 0.5d
+                };
+            }
+            t.BeginAnimation(ScaleTransform.ScaleXProperty, animation1);
+            t.BeginAnimation(ScaleTransform.ScaleYProperty, animation1);
+
+            DoubleAnimation animation2 = new DoubleAnimation(0, 1, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+            colorControlsGrid.BeginAnimation(OpacityProperty, animation2);
+            //controlsGrid.IsEnabled = false;
+
+            styleColorWheel.Palette.Colors[0].RgbColor = (Color)ColorConverter.ConvertFromString(UIColors.getStyleColorString(this));
+            styleColorBrightnessSlider.Value = (double)styleColorWheel.Palette.Colors[0].Brightness255;
+
+            reloadGame.IsEnabled = false;
+            loadAll.IsEnabled = false;
+            saveAll.IsEnabled = false;
+            restoreAll.IsEnabled = false;
+            settingsButton.IsEnabled = false;
+        }
+
+        private void controlsGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (colorControlsGrid.Opacity == 1)
+            {
+                DoubleAnimation animation0 = new DoubleAnimation(15, 0, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+                controlsGrid.Effect.BeginAnimation(BlurEffect.RadiusProperty, animation0);
+
+                DoubleAnimation animation1 = new DoubleAnimation(1, 0.000001, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+                var t = colorControlsGrid.RenderTransform as ScaleTransform;
+                if (t == null)
+                {
+                    colorControlsGrid.RenderTransform = t = new ScaleTransform(1d, 1d)
+                    {
+                        CenterX = 0.5d,
+                        CenterY = 0.5d
+                    };
+                }
+                t.BeginAnimation(ScaleTransform.ScaleXProperty, animation1);
+                t.BeginAnimation(ScaleTransform.ScaleYProperty, animation1);
+
+                DoubleAnimation animation2 = new DoubleAnimation(1, 0, new Duration(new TimeSpan(0, 0, 0, 0, 200)));
+                colorControlsGrid.BeginAnimation(OpacityProperty, animation2);
+                controlsGrid.IsEnabled = true;
+
+                reloadGame.IsEnabled = true;
+                loadAll.IsEnabled = true;
+                saveAll.IsEnabled = true;
+                restoreAll.IsEnabled = true;
+                settingsButton.IsEnabled = true;
+
+            }
+        }
+
+        private void styleColorWheel_ColorsUpdated(object sender, EventArgs e)
+        {
+            try
+            {
+                UIColors.changeStyleColor(this, styleColorWheel.Palette.Colors[0].RgbColor);
+                //styleColorHexBox.Text = UIColors.getStyleColorString(this);
+                styleColorWheel.Palette.Colors[0].Alpha255 = 255;
+            }
+            catch { }
+        }
+
+        private void styleColorBrightnessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            try
+            {
+                styleColorWheel.Palette.Colors[0].Alpha255 = 255;
+                styleColorWheel.Palette.Colors[0].Brightness255 = (byte)styleColorBrightnessSlider.Value;
+                styleColorWheel_ColorsUpdated(styleColorWheel, e);
+            }
+            catch { }
+        }
+
+        private void styleColorHexBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                styleColorWheel.Palette.Colors[0].RgbColor = (Color)ColorConverter.ConvertFromString(styleColorHexBox.Text);
+                styleColorWheel.Palette.Colors[0].Alpha255 = 255;
+
+                styleColorWheel_ColorsUpdated(styleColorWheel, e);
+            }
+            catch { }
+        }
+
+        private void themebutton_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton btn = (RadioButton)sender;
+            if((string)btn.Content == "Dark")
+            {
+                UIColors.changeThemeColor(this, "Dark");
+            }
+            if ((string)btn.Content == "Light")
+            {
+                UIColors.changeThemeColor(this, "Light");
+            }
+            if ((string)btn.Content == "Fnc")
+            {
+                UIColors.changeThemeColor(this, "fncTheme");
+                styleColorWheel.Palette.Colors[0].RgbColor = Colors.White;
+                styleColorBrightnessSlider.Value = 100;
+            }
+        }
     }//
 }
