@@ -12,211 +12,244 @@
         xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark" xmlns:Controls1="clr-namespace:ColorWheel.Controls;assembly=ColorWheel.Controls" x:Name="bo1tool" x:Class="bo1tool.MainWindow"
         xmlns:converters="clr-namespace:bo1tool.Converters"
         mc:Ignorable="d"
-        Title="BO1 Tool" Height="500" Width="656" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="NoResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
-	<Window.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Style.xaml"/>
-			</ResourceDictionary.MergedDictionaries>
-			<converters:BoolToOppositeBoolConverter x:Key="oppositeConverter"/>
-			<converters:MathConverter x:Key="mathConverter"/>
-			<converters:ColorConverter x:Key="colorConvert"/>
-		</ResourceDictionary>
-	</Window.Resources>
+        Title="BO1 Tool" Height="430" Width="461" Style="{DynamicResource WindowStyle}" WindowStartupLocation="CenterScreen" WindowStyle="None" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" Background="{DynamicResource DefaultBackground}" Loaded="bo1tool_Loaded" MinWidth="416" MinHeight="305" ResizeMode="CanResize" BorderBrush="{DynamicResource BackgroundOpaque}" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BoolToOppositeBoolConverter x:Key="oppositeConverter"/>
+            <converters:MathConverter x:Key="mathConverter"/>
+            <converters:ColorConverter x:Key="colorConvert"/>
+        </ResourceDictionary>
+    </Window.Resources>
 
-	<WindowChrome.WindowChrome>
-		<WindowChrome 
+    <WindowChrome.WindowChrome>
+        <WindowChrome 
         CaptionHeight="0"
         ResizeBorderThickness="3"
         UseAeroCaptionButtons="True" />
-	</WindowChrome.WindowChrome>
-	<Grid x:Name="mainGrid" Background="{DynamicResource DefaultBackground}"  Margin="0,5,0,2">
-		<Button x:Name="closeButton" Content="✕" Margin="0,-24,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF838383" HorizontalAlignment="Right" Width="24"/>
-		<Button x:Name="minButton" Content="—" Margin="0,-24,26,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF707071" HorizontalAlignment="Right" Width="24"/>
-		<TabControl x:Name="AllPages" x:FieldModifier="public" FontSize="14" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Background="{DynamicResource DefaultBackground}" Margin="0,2,0,0" SelectionChanged="AllPages_SelectionChanged">
-			<TabItem Header="MENU">
-				<Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="1">
-					<Grid.Background>
-						<ImageBrush ImageSource="onodera3.png"/>
-					</Grid.Background>
-					<Button Content="Restore all" HorizontalAlignment="Left" Margin="153,154,0,0" VerticalAlignment="Top" Width="174" Height="46" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-					<Button x:Name="reloadGame" Content="Reload" HorizontalAlignment="Left" Margin="153,63,0,0" VerticalAlignment="Top" Width="225" Height="45" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17" Click="reloadGame_Click"/>
-					<Button Content="Load all" HorizontalAlignment="Left" Margin="153,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-					<Button Content="Save all" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
-					<Grid HorizontalAlignment="Left" Height="46" Margin="333,154,0,0" VerticalAlignment="Top" Width="45" Background="{DynamicResource DefaultBackgroundOpacity}" Cursor="Hand">
-						<Viewbox Margin="13,13,11,12">
-							<Canvas Width="24" Height="24">
-								<Path Fill="{DynamicResource DefaultHighlightColor}" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Height="24" Stretch="Fill" Width="24" />
-							</Canvas>
-						</Viewbox>
-					</Grid>
-				</Grid>
-			</TabItem>
-			<TabItem x:Name="tabItem1" Header="CFG" Margin="2,0,-2,0" TabIndex="0" FontSize="15">
-				<Grid Background="{DynamicResource DefaultBackground}" Margin="0,0,-3,-5">
-					<local:aTextBox x:Name="singleCfg" Grid.ColumnSpan="1" Height="30" Margin="10,10,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="Single command" FontFamily="Segoe UI Semilight" MouseDoubleClick="TextBox_MouseDoubleClick" CaretBrush="{DynamicResource DefaultHighlightColor}" HintText="Single command" FocusedBrush="{DynamicResource DefaultHighlightColor}" ShowClearButton="True" TextChanged="singleCfg_TextChanged" KeyUp="singleCfg_KeyUp" BorderBrush="{DynamicResource BackgroundOpaque}">
-						<local:aTextBox.ContextMenu>
-							<ContextMenu Background="{DynamicResource DefaultBackground}" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" HasDropShadow="True" Width="120">
-								<MenuItem Header="To CFG box" FontSize="17" Width="120" Height="30" Click="appendToCfg"/>
-								<MenuItem Header="Copy All" FontSize="17" Width="120" Height="30" Click="CopyAll"/>
-								<MenuItem Header="Copy selection" FontSize="17" Width="120" Height="30" Click="CopySelection"/>
-								<MenuItem Header="Paste" FontSize="17" Width="120" Height="30" Click="PasteMenuItem"/>
-								<MenuItem Header="Clear" FontSize="17" Width="120" Height="30" Click="ClearMenuItem"/>
-							</ContextMenu>
-						</local:aTextBox.ContextMenu>
-					</local:aTextBox>
-					<Button x:Name="sendSingle" Content="Send" Margin="0,10,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendSingle_Click"/>
-					<local:aTextBox x:Name="tScaleBox" Grid.ColumnSpan="1" Height="30" Margin="10,47,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="" FontFamily="Segoe UI Semilight" ToolTip="timescale" MouseDoubleClick="TextBox_MouseDoubleClick" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" HintText="timescale" ShowClearButton="True" BorderBrush="{DynamicResource BackgroundOpaque}"/>
-					<Button x:Name="sendTscale" Content="Send" Margin="0,47,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendTscale_Click"/>
-					<local:linkButton x:Name="loadCfg" Content="Load CFG" Margin="11,0,268,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="loadCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
-					<local:linkButton x:Name="sendCfg" Content="Send CFG" Margin="140,0,140,7" Background="{DynamicResource DefaultBackground}" Foreground="{DynamicResource DefaultColor}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="sendCfg_Click" HorizontalAlignment="Center" Width="123" Cursor="Hand"/>
-					<local:linkButton x:Name="saveCfg" Content="Save CFG" Margin="269,0,10,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="saveCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
-					<RichTextBox x:Name="cfgBox" Margin="10,82,10,42" FontSize="16" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource DefaultHighlightColor}" FontFamily="Segoe UI Semilight" Background="{DynamicResource DefaultBackground}" Tag="" MouseDoubleClick="TextBox_MouseDoubleClick" BorderBrush="{DynamicResource BackgroundOpaque}">
-						<RichTextBox.Resources>
-							<Style TargetType="{x:Type Paragraph}">
-								<Setter Property="Margin" Value="0"/>
-							</Style>
-						</RichTextBox.Resources>
-						<RichTextBox.ContextMenu>
-							<ContextMenu Background="{DynamicResource DefaultBackground}" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" HasDropShadow="True" Width="120">
-								<MenuItem Header="Copy All" FontSize="17" Width="120" Height="30" Click="CopyAll"/>
-								<MenuItem Header="Copy selection" FontSize="17" Width="120" Height="30" Click="CopySelection"/>
-								<MenuItem Header="Paste" FontSize="17" Width="120" Height="30" Click="PasteMenuItem"/>
-								<MenuItem Header="Clear" FontSize="17" Width="120" Height="30" Click="ClearMenuItem"/>
-							</ContextMenu>
-						</RichTextBox.ContextMenu>
-						<FlowDocument>
-							<Paragraph>
-								<Run Text=""/>
-							</Paragraph>
-						</FlowDocument>
-					</RichTextBox>
-				</Grid>
-			</TabItem>
-			<TabItem Header="THEATRE" Margin="2,0,-2,0" FontSize="15">
-				<Grid Background="{DynamicResource DefaultBackground}">
-					<Button Content="Go to time" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="190" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}"/>
-					<ProgressBar HorizontalAlignment="Left" Height="10" Margin="62,24,0,0" VerticalAlignment="Top" Width="336"/>
-					<Button Content="Save" HorizontalAlignment="Left" Margin="207,47,0,0" VerticalAlignment="Top" Width="191" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}"/>
-					<Label Content="00:00" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" FontSize="17" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<Separator HorizontalAlignment="Left" Height="7" Margin="10,77,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-					<Label Content="Green Screen" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" FontSize="17"/>
+    </WindowChrome.WindowChrome>
+    <Grid x:Name="mainGrid" Background="{DynamicResource DefaultBackground}"  Margin="0,5,0,2">
+        <Button x:Name="closeButton" Content="✕" Margin="0,-24,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF838383" HorizontalAlignment="Right" Width="24"/>
+        <Button x:Name="minButton" Content="—" Margin="0,-24,26,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="Black" Height="24" BorderBrush="#FF707071" HorizontalAlignment="Right" Width="24"/>
+        <TabControl x:Name="AllPages" x:FieldModifier="public" FontSize="14" SelectedIndex="0" IsSynchronizedWithCurrentItem="True" Background="{DynamicResource DefaultBackground}" Margin="0,2,0,0" SelectionChanged="AllPages_SelectionChanged">
+            <TabItem Header="MENU">
+                <Grid x:Name="menuGrid" Margin="0,0,-3,-5" Opacity="1">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="onodera3.png"/>
+                    </Grid.Background>
+                    <Button Content="Restore all" HorizontalAlignment="Left" Margin="153,154,0,0" VerticalAlignment="Top" Width="174" Height="46" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Button x:Name="reloadGame" Content="Reload" HorizontalAlignment="Left" Margin="153,63,0,0" VerticalAlignment="Top" Width="225" Height="45" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17" Click="reloadGame_Click"/>
+                    <Button Content="Load all" HorizontalAlignment="Left" Margin="153,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Button Content="Save all" HorizontalAlignment="Left" Margin="268,112,0,0" VerticalAlignment="Top" Width="110" Height="36" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" FontSize="17"/>
+                    <Grid HorizontalAlignment="Left" Height="46" Margin="333,154,0,0" VerticalAlignment="Top" Width="45" Background="{DynamicResource DefaultBackgroundOpacity}" Cursor="Hand">
+                        <Viewbox Margin="13,13,11,12">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="{DynamicResource DefaultHighlightColor}" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Height="24" Stretch="Fill" Width="24" />
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabItem1" Header="CFG" Margin="2,0,-2,0" TabIndex="0" FontSize="15">
+                <Grid Background="{DynamicResource DefaultBackground}" Margin="0,0,-3,-5">
+                    <local:aTextBox x:Name="singleCfg" Grid.ColumnSpan="1" Height="30" Margin="10,10,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="Single command" FontFamily="Segoe UI Semilight" MouseDoubleClick="TextBox_MouseDoubleClick" CaretBrush="{DynamicResource DefaultHighlightColor}" HintText="Single command" FocusedBrush="{DynamicResource DefaultHighlightColor}" ShowClearButton="True" TextChanged="singleCfg_TextChanged" KeyUp="singleCfg_KeyUp" BorderBrush="{DynamicResource BackgroundOpaque}">
+                        <local:aTextBox.ContextMenu>
+                            <ContextMenu Background="{DynamicResource DefaultBackground}" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" HasDropShadow="True" Width="120">
+                                <MenuItem Header="To CFG box" FontSize="17" Width="120" Height="30" Click="appendToCfg"/>
+                                <MenuItem Header="Copy All" FontSize="17" Width="120" Height="30" Click="CopyAll"/>
+                                <MenuItem Header="Copy selection" FontSize="17" Width="120" Height="30" Click="CopySelection"/>
+                                <MenuItem Header="Paste" FontSize="17" Width="120" Height="30" Click="PasteMenuItem"/>
+                                <MenuItem Header="Clear" FontSize="17" Width="120" Height="30" Click="ClearMenuItem"/>
+                            </ContextMenu>
+                        </local:aTextBox.ContextMenu>
+                    </local:aTextBox>
+                    <Button x:Name="sendSingle" Content="Send" Margin="0,10,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendSingle_Click"/>
+                    <local:aTextBox x:Name="tScaleBox" Grid.ColumnSpan="1" Height="30" Margin="10,47,100,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource DefaultHighlightColor}" Tag="" FontFamily="Segoe UI Semilight" ToolTip="timescale" MouseDoubleClick="TextBox_MouseDoubleClick" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" HintText="timescale" ShowClearButton="True" BorderBrush="{DynamicResource BackgroundOpaque}"/>
+                    <Button x:Name="sendTscale" Content="Send" Margin="0,47,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="13" HorizontalAlignment="Right" Width="85" Click="sendTscale_Click"/>
+                    <local:linkButton x:Name="loadCfg" Content="Load CFG" Margin="11,0,268,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="loadCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
+                    <local:linkButton x:Name="sendCfg" Content="Send CFG" Margin="140,0,140,7" Background="{DynamicResource DefaultBackground}" Foreground="{DynamicResource DefaultColor}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="sendCfg_Click" HorizontalAlignment="Center" Width="123" Cursor="Hand"/>
+                    <local:linkButton x:Name="saveCfg" Content="Save CFG" Margin="269,0,10,7" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackground}" FontSize="13" Height="30" VerticalAlignment="Bottom" Click="saveCfg_Click" HorizontalAlignment="Center" Width="124" Cursor="Hand"/>
+                    <RichTextBox x:Name="cfgBox" Margin="10,82,10,42" FontSize="16" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource DefaultHighlightColor}" FontFamily="Segoe UI Semilight" Background="{DynamicResource DefaultBackground}" Tag="" MouseDoubleClick="TextBox_MouseDoubleClick" BorderBrush="{DynamicResource BackgroundOpaque}">
+                        <RichTextBox.Resources>
+                            <Style TargetType="{x:Type Paragraph}">
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </RichTextBox.Resources>
+                        <RichTextBox.ContextMenu>
+                            <ContextMenu Background="{DynamicResource DefaultBackground}" FontFamily="/bo1tool;component/Resources/#ConduitITCStd Medium" HasDropShadow="True" Width="120">
+                                <MenuItem Header="Copy All" FontSize="17" Width="120" Height="30" Click="CopyAll"/>
+                                <MenuItem Header="Copy selection" FontSize="17" Width="120" Height="30" Click="CopySelection"/>
+                                <MenuItem Header="Paste" FontSize="17" Width="120" Height="30" Click="PasteMenuItem"/>
+                                <MenuItem Header="Clear" FontSize="17" Width="120" Height="30" Click="ClearMenuItem"/>
+                            </ContextMenu>
+                        </RichTextBox.ContextMenu>
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text=""/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="THEATRE" Margin="2,0,-2,0" FontSize="15">
+                <Grid Background="{DynamicResource DefaultBackground}">
+                    <Button Content="Go to time" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="190" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}"/>
+                    <ProgressBar HorizontalAlignment="Left" Height="10" Margin="62,24,0,0" VerticalAlignment="Top" Width="336"/>
+                    <Button Content="Save" HorizontalAlignment="Left" Margin="207,47,0,0" VerticalAlignment="Top" Width="191" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}"/>
+                    <Label Content="00:00" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" FontSize="17" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Separator HorizontalAlignment="Left" Height="7" Margin="10,77,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                    <Label Content="Green Screen" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" FontSize="17"/>
 
 
-					<WPFSpark:ToggleSwitch x:Name="gsToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,97,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="gsToggle_Checked" Unchecked="gsToggle_Checked"/>
-					<Separator HorizontalAlignment="Left" Height="7" Margin="10,130,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-					<Label Content="Depth" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<WPFSpark:ToggleSwitch x:Name="depthToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,147,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="depthToggle_Checked" Unchecked="depthToggle_Checked"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="20" Margin="127,180,0,0"  VerticalAlignment="Top" Width="60" TextWrapping="Wrap" Text="{Binding Value, ElementName=depthDistanceSlider, UpdateSourceTrigger=PropertyChanged}" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" FontSize="16" BorderBrush="Transparent" HorizontalContentAlignment="Center" Padding="-5,0,0,0" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<Slider x:Name="depthDistanceSlider" HorizontalAlignment="Left" Margin="7,200,0,0" VerticalAlignment="Top" Width="391" Value="2000" BorderBrush="#FFF3DCDC" Maximum="4000" ValueChanged="depthDistanceSlider_ValueChanged"/>
-					<Label Content="Depth Distance:" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<Separator HorizontalAlignment="Left" Height="6" Margin="9,226,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-					<Label Content="Normal Pass" HorizontalAlignment="Left" Margin="9,242,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<Separator HorizontalAlignment="Left" Height="8" Margin="10,270,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-					<CheckBox x:Name="cg_drawGun" Content="Remove Gun" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-					<CheckBox x:Name="r_dobjlimit" Content="Remove Players" HorizontalAlignment="Left" Margin="131,294,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-					<CheckBox x:Name="r_bloomTweaks" Content="Bloom Tweaks" HorizontalAlignment="Left" Margin="292,320,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-					<CheckBox x:Name="greenSkyToggle" Content="Green Sky" HorizontalAlignment="Left" Margin="292,294,0,0" VerticalAlignment="Top" Checked="greenSkyToggle_Checked" Unchecked="greenSkyToggle_Checked"/>
-					<CheckBox x:Name="rmvBarrier" Content="Remove Theatre Barrier" HorizontalAlignment="Left" Margin="131,320,0,0" VerticalAlignment="Top"/>
-					<CheckBox x:Name="fx_draw" Content="Remove FX" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top"  Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-					<RadioButton Content="None" HorizontalAlignment="Left" Margin="108,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" BorderBrush="{DynamicResource DefaultColor}" IsChecked="True" Tag="0" Checked="debugShaderChange"/>
-					<RadioButton Content="Normal" HorizontalAlignment="Left" Margin="172,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="1" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
-					<RadioButton Content="Tangent" HorizontalAlignment="Left" Margin="243,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="2" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
-					<RadioButton Content="Binormal" HorizontalAlignment="Left" Margin="315,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="3" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
-					<Expander x:Name="gsColorEx" Header="      Clear Color" Margin="166,90,0,0" Foreground="{DynamicResource DefaultColor}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Style="{DynamicResource Expander}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="234" Height="27" MaxHeight="265" MaxWidth="234" MinWidth="234" MinHeight="30" Collapsed="gsColorEx_expand" Expanded="gsColorEx_expand">
-						<Grid Height="{Binding ActualHeight, ElementName=gsColorEx}" Width="{Binding ActualWidth, ElementName=gsColorEx}">
-							<Rectangle Fill="{DynamicResource BackgroundOpaque}" HorizontalAlignment="Left" Height="228" Margin="10,10,0,0" VerticalAlignment="Top" Width="213" RadiusY="19.5" RadiusX="19.5">
-								<Rectangle.Effect>
-									<DropShadowEffect BlurRadius="19" ShadowDepth="0" RenderingBias="Quality" Opacity="0.5"/>
-								</Rectangle.Effect>
-							</Rectangle>
-							<Controls1:ColorWheelControl x:Name="gsColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="130" Margin="20,48,0,0" VerticalAlignment="Top" Width="130" MouseDoubleClick="ColorWheel_MouseDoubleClick" ColorsUpdated="gsColorWheel_ColorUpdated"/>
-							<Button x:Name="cancelClearColor" Content="Cancel" HorizontalAlignment="Left" Margin="20,193,0,0" VerticalAlignment="Top" Width="95" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" Click="cancelClearColor_Click"/>
-							<Button x:Name="okClearColor" Content="Ok" HorizontalAlignment="Left" Margin="120,193,0,0" VerticalAlignment="Top" Width="95" Height="25" Click="okClearColor_Click" Foreground="{DynamicResource DefaultBackground}"/>
-							<TextBox x:Name="gsR_textBox" Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="26" Margin="155,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}"   Text="{Binding Palette.Colors[0].R, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
-							<TextBox x:Name="gsG_textBox"  Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="25" Margin="155,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}" Text="{Binding Palette.Colors[0].G, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
-							<TextBox x:Name="gsB_textBox"  Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="26" Margin="155,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}" Text="{Binding Palette.Colors[0].B, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
-							<RadioButton x:Name="gsR" Content="" HorizontalAlignment="Left" Margin="75,18,0,0" VerticalAlignment="Top" Background="Red" BorderBrush="#33FF0000" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
-							<RadioButton x:Name="gsG" Content="" HorizontalAlignment="Left" Margin="98,18,0,0" VerticalAlignment="Top" Background="Lime" BorderBrush="#3300FF00" IsChecked="True" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
-							<RadioButton x:Name="gsB" Content="" HorizontalAlignment="Left" Margin="121,18,0,0" VerticalAlignment="Top" Background="Blue" BorderBrush="#330000FF" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
-							<RadioButton x:Name="gsP" Content="" HorizontalAlignment="Left" Margin="144,18,0,0" VerticalAlignment="Top" Background="Magenta" BorderBrush="#33FF00FF" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
-						</Grid>
-					</Expander>
-				</Grid>
-			</TabItem>
-			<TabItem Header="FOG" Margin="2,0,-2,0" FontSize="15">
-				<Grid Background="{DynamicResource DefaultBackground}">
-					<TextBox x:Name="slier3" Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="32,62,0,0" Text="{Binding Value, ElementName=slider2, StringFormat=\{0:N2\}}" VerticalAlignment="Top" Width="55" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" IsUndoEnabled="False" TextOptions.TextHintingMode="Fixed" TextOptions.TextFormattingMode="Display" MaxLines="1" TextWrapping="Wrap"/>
-					<Slider x:Name="slider2" HorizontalAlignment="Left" Margin="102,62,0,0" VerticalAlignment="Top" Width="285" Maximum="1" SmallChange="0.01" ValueChanged="fogSlider_ValueChanged"/>
-				</Grid>
-			</TabItem>
-			<TabItem Header="SUN" Margin="2,0,-2,0" FontSize="15">
-				<Grid x:Name="sunGrid" Background="{DynamicResource DefaultBackground}">
-					<CheckBox x:Name="rmvFlare" Content="Remove Sun Flare" HorizontalAlignment="Left" Margin="99,244,0,0" VerticalAlignment="Top" Checked="rmvFlare_Checked" Unchecked="rmvFlare_Checked"/>
-					<local:Dial x:Name="sunDirX" HorizontalAlignment="Left" Height="80" Margin="284,156,0,0" VerticalAlignment="Top" Width="80" ValueChanged="sunDir_ValueChanged" Min="-360" Max="360"/>
-					<Controls1:ColorWheelControl x:Name="sunColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="173" Margin="12,11,0,0" VerticalAlignment="Top" Width="176" ColorsUpdated="sunColorWheel_ColorsUpdated"/>
-					<Slider x:Name="r_lightTweakSunLight" HorizontalAlignment="Left" Margin="12,189,0,0" VerticalAlignment="Top" Width="176" Height="24" RenderTransformOrigin="0.5,0.5" Maximum="255" Value="32" ValueChanged="DvarSlider_ValueChanged"/>
-					<Label Content="Sky temperature" HorizontalAlignment="Left" Margin="209,17,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="318,15,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_skyColorTemp, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="72" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<Slider x:Name="r_skyColorTemp" Margin="207,43,10,0" VerticalAlignment="Top" Value="6500" Maximum="25000" ValueChanged="DvarSlider_ValueChanged"/>
-					<Label Content="Sky brightness" HorizontalAlignment="Left" Margin="209,75,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="22" Margin="318,73,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_sky_intensity_factor0, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="72" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<Slider x:Name="r_sky_intensity_factor0" Margin="207,100,10,0" VerticalAlignment="Top" Maximum="32" Value="1" ValueChanged="DvarSlider_ValueChanged"/>
+                    <WPFSpark:ToggleSwitch x:Name="gsToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,97,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="gsToggle_Checked" Unchecked="gsToggle_Checked"/>
+                    <Separator HorizontalAlignment="Left" Height="7" Margin="10,130,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                    <Label Content="Depth" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <WPFSpark:ToggleSwitch x:Name="depthToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="112,147,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="{DynamicResource DefaultBackground}" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="depthToggle_Checked" Unchecked="depthToggle_Checked"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="20" Margin="127,180,0,0"  VerticalAlignment="Top" Width="60" TextWrapping="Wrap" Text="{Binding Value, ElementName=depthDistanceSlider, UpdateSourceTrigger=PropertyChanged}" ContextMenu="{Binding ContextMenu, ElementName=singleCfg}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" FontSize="16" BorderBrush="Transparent" HorizontalContentAlignment="Center" Padding="-5,0,0,0" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="depthDistanceSlider" HorizontalAlignment="Left" Margin="7,200,0,0" VerticalAlignment="Top" Width="391" Value="2000" BorderBrush="#FFF3DCDC" Maximum="4000" ValueChanged="depthDistanceSlider_ValueChanged"/>
+                    <Label Content="Depth Distance:" HorizontalAlignment="Left" Margin="10,180,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <Separator HorizontalAlignment="Left" Height="6" Margin="9,226,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                    <Label Content="Normal Pass" HorizontalAlignment="Left" Margin="9,242,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <Separator HorizontalAlignment="Left" Height="8" Margin="10,270,0,0" VerticalAlignment="Top" Width="388" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                    <CheckBox x:Name="cg_drawGun" Content="Remove Gun" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
+                    <CheckBox x:Name="r_dobjlimit" Content="Remove Players" HorizontalAlignment="Left" Margin="131,294,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
+                    <CheckBox x:Name="r_bloomTweaks" Content="Bloom Tweaks" HorizontalAlignment="Left" Margin="292,320,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
+                    <CheckBox x:Name="greenSkyToggle" Content="Green Sky" HorizontalAlignment="Left" Margin="292,294,0,0" VerticalAlignment="Top" Checked="greenSkyToggle_Checked" Unchecked="greenSkyToggle_Checked"/>
+                    <CheckBox x:Name="rmvBarrier" Content="Remove Theatre Barrier" HorizontalAlignment="Left" Margin="131,320,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="fx_draw" Content="Remove FX" HorizontalAlignment="Left" Margin="10,320,0,0" VerticalAlignment="Top"  Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
+                    <RadioButton Content="None" HorizontalAlignment="Left" Margin="108,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" BorderBrush="{DynamicResource DefaultColor}" IsChecked="True" Tag="0" Checked="debugShaderChange"/>
+                    <RadioButton Content="Normal" HorizontalAlignment="Left" Margin="172,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="1" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
+                    <RadioButton Content="Tangent" HorizontalAlignment="Left" Margin="243,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="2" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
+                    <RadioButton Content="Binormal" HorizontalAlignment="Left" Margin="315,244,0,0" VerticalAlignment="Top" Background="{DynamicResource DefaultColor}" Tag="3" Checked="debugShaderChange" BorderBrush="{DynamicResource DefaultColor}"/>
+                    <Expander x:Name="gsColorEx" Header="      Clear Color" Margin="166,90,0,0" Foreground="{DynamicResource DefaultColor}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Style="{DynamicResource Expander}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="234" Height="27" MaxHeight="265" MaxWidth="234" MinWidth="234" MinHeight="30" Collapsed="gsColorEx_expand" Expanded="gsColorEx_expand">
+                        <Grid Height="{Binding ActualHeight, ElementName=gsColorEx}" Width="{Binding ActualWidth, ElementName=gsColorEx}">
+                            <Rectangle Fill="{DynamicResource BackgroundOpaque}" HorizontalAlignment="Left" Height="228" Margin="10,10,0,0" VerticalAlignment="Top" Width="213" RadiusY="19.5" RadiusX="19.5">
+                                <Rectangle.Effect>
+                                    <DropShadowEffect BlurRadius="19" ShadowDepth="0" RenderingBias="Quality" Opacity="0.5"/>
+                                </Rectangle.Effect>
+                            </Rectangle>
+                            <Controls1:ColorWheelControl x:Name="gsColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="130" Margin="20,48,0,0" VerticalAlignment="Top" Width="130" MouseDoubleClick="ColorWheel_MouseDoubleClick" ColorsUpdated="gsColorWheel_ColorUpdated"/>
+                            <Button x:Name="cancelClearColor" Content="Cancel" HorizontalAlignment="Left" Margin="20,193,0,0" VerticalAlignment="Top" Width="95" Height="25" Background="{DynamicResource DefaultBackgroundOpacity}" Foreground="{DynamicResource DefaultColor}" Click="cancelClearColor_Click"/>
+                            <Button x:Name="okClearColor" Content="Ok" HorizontalAlignment="Left" Margin="120,193,0,0" VerticalAlignment="Top" Width="95" Height="25" Click="okClearColor_Click" Foreground="{DynamicResource DefaultBackground}"/>
+                            <TextBox x:Name="gsR_textBox" Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="26" Margin="155,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}"   Text="{Binding Palette.Colors[0].R, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
+                            <TextBox x:Name="gsG_textBox"  Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="25" Margin="155,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}" Text="{Binding Palette.Colors[0].G, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
+                            <TextBox x:Name="gsB_textBox"  Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="26" Margin="155,133,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" Background="Transparent" BorderBrush="{x:Null}" Text="{Binding Palette.Colors[0].B, Converter={StaticResource colorConvert}, ElementName=gsColorWheel}" FontSize="16" CaretBrush="{DynamicResource DefaultAccentColor}"/>
+                            <RadioButton x:Name="gsR" Content="" HorizontalAlignment="Left" Margin="75,18,0,0" VerticalAlignment="Top" Background="Red" BorderBrush="#33FF0000" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
+                            <RadioButton x:Name="gsG" Content="" HorizontalAlignment="Left" Margin="98,18,0,0" VerticalAlignment="Top" Background="Lime" BorderBrush="#3300FF00" IsChecked="True" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
+                            <RadioButton x:Name="gsB" Content="" HorizontalAlignment="Left" Margin="121,18,0,0" VerticalAlignment="Top" Background="Blue" BorderBrush="#330000FF" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
+                            <RadioButton x:Name="gsP" Content="" HorizontalAlignment="Left" Margin="144,18,0,0" VerticalAlignment="Top" Background="Magenta" BorderBrush="#33FF00FF" Checked="clearColorPresetChange" Unchecked="clearColorPresetChange"/>
+                        </Grid>
+                    </Expander>
+                </Grid>
+            </TabItem>
+            <TabItem Header="FOG" Margin="2,0,-2,0" FontSize="15">
+                <Grid Background="{DynamicResource DefaultBackground}">
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="90,12,0,0" TextWrapping="Wrap" Text="{Binding ElementName=fogStartSlider, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="62" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="fogStartSlider" HorizontalAlignment="Left" Margin="157,12,0,0" VerticalAlignment="Top" Width="280" Maximum="2000" SmallChange="0.01" ValueChanged="fogSlider_ValueChanged" Minimum="-1000" Value="900"/>
+                    <Label Content="FOG Start" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <Slider x:Name="fogHeightSlider" HorizontalAlignment="Left" Margin="157,42,0,0" VerticalAlignment="Top" Width="280" Maximum="10000" SmallChange="0.01" ValueChanged="fogSlider_ValueChanged" Value="900"/>
+                    <Label Content="FOG Height" HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="90,42,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=fogHeightSlider}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="62" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Controls1:ColorWheelControl x:Name="fogNearColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="137" Margin="10,172,0,0" VerticalAlignment="Top" Width="138" ColorsUpdated="fogColorWheel_ColorUpdated"/>
+                    <Label Content="FOG Near Color" HorizontalAlignment="Left" Margin="56,142,0,0" VerticalAlignment="Top" FontSize="17" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="137,72,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=fogNearExpSlider, Mode=TwoWay, StringFormat=\{0:N2\}}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="62" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="fogNearExpSlider" HorizontalAlignment="Left" Margin="204,72,0,0" VerticalAlignment="Top" Width="233" Maximum="16" SmallChange="0.01" ValueChanged="fogSlider_ValueChanged" Value="1"/>
+                    <Label Content="FOG Near Exposure" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <Slider x:Name="fogFarExpSlider" HorizontalAlignment="Left" Margin="204,102,0,0" VerticalAlignment="Top" Width="233" Maximum="1" SmallChange="0.01" ValueChanged="fogSlider_ValueChanged" Value="1"/>
+                    <Label Content="FOG Far Exposure" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="137,102,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=fogFarExpSlider, Mode=TwoWay, StringFormat=\{0:N2\}}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="62" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="152,186,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].R, Converter={StaticResource colorConvert}, ElementName=fogNearColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="152,229,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].G, Converter={StaticResource colorConvert}, ElementName=fogNearColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="152,271,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].B, Converter={StaticResource colorConvert}, ElementName=fogNearColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="fogNearColorBrightness" HorizontalAlignment="Left" Margin="10,314,0,0" VerticalAlignment="Top" Width="190" Maximum="255" SmallChange="0.01" ValueChanged="fogNearBrighntess_ValueChanged" Value="255"/>
+                    <Controls1:ColorWheelControl x:Name="fogFarColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="137" Margin="238,172,0,0" VerticalAlignment="Top" Width="138" ColorsUpdated="fogColorWheel_ColorUpdated"/>
+                    <Label Content="FOG Far Color" HorizontalAlignment="Left" Margin="292,142,0,0" VerticalAlignment="Top" FontSize="17" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="380,186,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].R, Converter={StaticResource colorConvert}, ElementName=fogFarColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="380,229,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].G, Converter={StaticResource colorConvert}, ElementName=fogFarColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="380,271,0,0" TextWrapping="Wrap" Text="{Binding Palette.Colors[0].B, Converter={StaticResource colorConvert}, ElementName=fogFarColorWheel}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="56" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="fogFarColorBrightness" HorizontalAlignment="Left" Margin="238,314,0,0" VerticalAlignment="Top" Width="190" Maximum="255" SmallChange="0.01" ValueChanged="fogFarBrighntess_ValueChanged" Value="255"/>
+                    <Separator HorizontalAlignment="Left" Height="7" Margin="32,130,0,0" VerticalAlignment="Top" Width="383" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+
+                    <Separator x:Name="linkColorsLine1" HorizontalAlignment="Left" Height="5" Margin="162,151,0,0" VerticalAlignment="Top" Width="48" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="{DynamicResource DisabledColor}"/>
+                    <Separator x:Name="linkColorsLine2" HorizontalAlignment="Left" Height="5" Margin="230,151,0,0" VerticalAlignment="Top" Width="48" Foreground="{x:Null}" BorderBrush="{x:Null}" Background="{DynamicResource DisabledColor}"/>
+                    <Grid x:Name="LinkColors" HorizontalAlignment="Left" Height="30" Margin="197,138,0,0" VerticalAlignment="Top" Width="45" Background="#00616191" Cursor="Hand" MouseUp="LinkColors_MouseUp">
+                        <Viewbox Margin="12,5,11,5">
+                            <Canvas Width="24" Height="24">
+                                <Path x:Name="linkPath" Fill="{DynamicResource DisabledColor}" Data="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" Height="10.2" Stretch="Fill" Width="20.4" Canvas.Top="7.8" Canvas.Left="2.4" />
+                            </Canvas>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="SUN" Margin="2,0,-2,0" FontSize="15">
+                <Grid x:Name="sunGrid" Background="{DynamicResource DefaultBackground}">
+                    <CheckBox x:Name="rmvFlare" Content="Remove Sun Flare" HorizontalAlignment="Left" Margin="99,244,0,0" VerticalAlignment="Top" Checked="rmvFlare_Checked" Unchecked="rmvFlare_Checked"/>
+                    <local:Dial x:Name="sunDirX" HorizontalAlignment="Left" Height="80" Margin="284,156,0,0" VerticalAlignment="Top" Width="80" ValueChanged="sunDir_ValueChanged" Min="-360" Max="360"/>
+                    <Controls1:ColorWheelControl x:Name="sunColorWheel" Palette="{Binding Palette, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" HorizontalAlignment="Left" Height="173" Margin="12,11,0,0" VerticalAlignment="Top" Width="176" ColorsUpdated="sunColorWheel_ColorsUpdated"/>
+                    <Slider x:Name="r_lightTweakSunLight" HorizontalAlignment="Left" Margin="12,189,0,0" VerticalAlignment="Top" Width="176" Height="24" RenderTransformOrigin="0.5,0.5" Maximum="255" Value="32" ValueChanged="DvarSlider_ValueChanged"/>
+                    <Label Content="Sky temperature" HorizontalAlignment="Left" Margin="209,17,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="318,15,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_skyColorTemp, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="72" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="r_skyColorTemp" Margin="207,43,10,0" VerticalAlignment="Top" Value="6500" Maximum="25000" ValueChanged="DvarSlider_ValueChanged"/>
+                    <Label Content="Sky brightness" HorizontalAlignment="Left" Margin="209,75,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="22" Margin="318,73,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_sky_intensity_factor0, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="72" BorderBrush="{x:Null}" Background="{DynamicResource DefaultBackground}" FontSize="17" HorizontalContentAlignment="Center" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Slider x:Name="r_sky_intensity_factor0" Margin="207,100,10,0" VerticalAlignment="Top" Maximum="32" Value="1" ValueChanged="DvarSlider_ValueChanged"/>
                     <local:Dial x:Name="sunDirY" HorizontalAlignment="Left" Height="80" Margin="414,156,0,0" VerticalAlignment="Top" Width="80" ValueChanged="sunDir_ValueChanged" Min="-360" Max="360"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="79,214,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_lightTweakSunLight, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="44" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<CheckBox x:Name="r_skyTransition" Content="Transition" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
-					<Label Content="Sun Pitch:" HorizontalAlignment="Left" Margin="284,130,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<Label Content="Sun Yaw:" HorizontalAlignment="Left" Margin="414,130,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="300,241,0,0" TextWrapping="Wrap" Text="{Binding ElementName=sunDirX, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="48" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="430,241,0,0" TextWrapping="Wrap" Text="{Binding ElementName=sunDirY, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="48" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
-					<Button x:Name="sun_ToCfg" Content="Add to CFG" Margin="10,273,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultBackground}" Click="sun_ToCfg_Click"/>
-					<Button x:Name="resetSun" Content="Reset to default" Margin="10,308,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" Click="resetSun_Click"/>
-				</Grid>
-			</TabItem>
-			<TabItem Header="DOF" Margin="2,0,-2,0" FontSize="15">
-				<Grid Background="{DynamicResource DefaultBackground}">
-					<Label Content="DOF Enable" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" FontSize="17"/>
-					<WPFSpark:ToggleSwitch x:Name="dofToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="102,17,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="#FF191919" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="dofToggle_Checked" Unchecked="dofToggle_Checked"/>
-					<Grid x:Name="dofGrid" Height="388" Margin="0,42,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=dofToggle, Path=IsChecked}">
-						<Label Content="DOF Far Blur" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox x:Name="r_dof_farBlurTextBox" Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,10,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farBlur, Mode=TwoWay, StringFormat=\{0:N2\},UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="53" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_farBlur" Margin="152,11,10,0" VerticalAlignment="Top" Maximum="10" Value="1.8" ValueChanged="DvarSlider_ValueChanged"/>
-						<Label Content="DOF Far Start" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,45,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farStart, Mode=TwoWay, StringFormat=\{0:N2\},UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" VerticalAlignment="Top" Width="53" FontSize="17" BorderBrush="{x:Null}"/>
-						<Slider x:Name="r_dof_farStart" Margin="152,46,10,0" VerticalAlignment="Top" Maximum="7000" Value="1000" Minimum="-1000" ValueChanged="DvarSlider_ValueChanged"/>
-						<Label Content="DOF Far End" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,80,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farEnd, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="53" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent" />
-						<Slider x:Name="r_dof_farEnd" Margin="152,81,10,0" VerticalAlignment="Top" Maximum="7000" Value="7000" ValueChanged="DvarSlider_ValueChanged" Minimum="-1000"/>
-						<Label Content="DOF Near Blur" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,118,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearBlur, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_nearBlur" Margin="162,119,10,0" VerticalAlignment="Top" Maximum="10" Value="4" ValueChanged="DvarSlider_ValueChanged"/>
-						<Label Content="DOF Near Start" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,153,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearStart, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_nearStart" Margin="162,154,10,0" VerticalAlignment="Top" Maximum="1000" Value="10" ValueChanged="DvarSlider_ValueChanged" Minimum="-500"/>
-						<Label Content="DOF Near End" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,188,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearEnd, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_nearEnd" Margin="162,189,10,0" VerticalAlignment="Top" Maximum="1000" Value="60" ValueChanged="DvarSlider_ValueChanged" Minimum="-500"/>
-						<Separator HorizontalAlignment="Left" Height="7" Margin="9,108,0,0" VerticalAlignment="Top" Width="383" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-						<Label Content="DOF ViewModel Start" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="145,229,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_viewModelStart, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_viewModelStart" Margin="196,230,10,0" VerticalAlignment="Top" Maximum="128" Value="2" ValueChanged="DvarSlider_ValueChanged"/>
-						<Label Content="DOF ViewModel End" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="145,264,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_viewModelEnd, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_viewModelEnd" Margin="196,265,10,0" VerticalAlignment="Top" Maximum="128" Value="10" ValueChanged="DvarSlider_ValueChanged"/>
-						<Separator HorizontalAlignment="Left" Height="7" Margin="10,217,0,0" VerticalAlignment="Top" Width="383" Background="{DynamicResource DefaultBackgroundOpacity}"/>
-						<Label Content="DOF Bias" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" FontSize="17"/>
-						<TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,304,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_bias, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
-						<Slider x:Name="r_dof_bias" Margin="162,305,10,0" VerticalAlignment="Top" Maximum="3" Value="0.5" Minimum="0.1" ValueChanged="DvarSlider_ValueChanged"/>
-						<Button x:Name="resetDof" Content="Reset to default" Margin="13,354,206,0" VerticalAlignment="Top" Height="30" Background="{DynamicResource DefaultBackgroundOpacity}" Click="resetDof_Click" HorizontalAlignment="Center" Width="189" Foreground="{DynamicResource DefaultColor}"/>
-						<Button x:Name="dof_ToCfg" Content="Add to CFG" Margin="209,354,11,0" VerticalAlignment="Top" Height="30"  Background="{DynamicResource DefaultBackgroundOpacity}" Click="dof_ToCfg_Click" HorizontalAlignment="Center" Width="188" Foreground="{DynamicResource DefaultColor}"/>
-					</Grid>
-				</Grid>
-			</TabItem>
-			<TabItem Header="WEAPON" Margin="2,0,-2,0" FontSize="15">
-				<Grid Background="{DynamicResource DefaultBackground}"/>
-			</TabItem>
-		</TabControl>
-		<Rectangle x:Name="Indicator" Fill="{DynamicResource DefaultColor}" HorizontalAlignment="Left" Height="3" Margin="17,28,0,0" VerticalAlignment="Top" Width="20" RadiusY="1.5" RadiusX="2"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="79,214,0,0" TextWrapping="Wrap" Text="{Binding ElementName=r_lightTweakSunLight, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="44" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <CheckBox x:Name="r_skyTransition" Content="Transition" HorizontalAlignment="Left" Margin="10,245,0,0" VerticalAlignment="Top" Checked="setFromCheckBox" Unchecked="setFromCheckBox"/>
+                    <Label Content="Sun Pitch:" HorizontalAlignment="Left" Margin="284,130,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <Label Content="Sun Yaw:" HorizontalAlignment="Left" Margin="414,130,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="300,241,0,0" TextWrapping="Wrap" Text="{Binding ElementName=sunDirX, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="48" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="430,241,0,0" TextWrapping="Wrap" Text="{Binding ElementName=sunDirY, Path=Value}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="48" HorizontalContentAlignment="Center" FontSize="17" BorderBrush="{x:Null}" Foreground="{DynamicResource DefaultHighlightColor}"/>
+                    <Button x:Name="sun_ToCfg" Content="Add to CFG" Margin="10,273,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultBackground}" Click="sun_ToCfg_Click"/>
+                    <Button x:Name="resetSun" Content="Reset to default" Margin="10,308,10,0" VerticalAlignment="Top" Height="30" Foreground="{DynamicResource DefaultColor}" Background="{DynamicResource DefaultBackgroundOpacity}" Click="resetSun_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="DOF" Margin="2,0,-2,0" FontSize="15">
+                <Grid Background="{DynamicResource DefaultBackground}">
+                    <Label Content="DOF Enable" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" FontSize="17"/>
+                    <WPFSpark:ToggleSwitch x:Name="dofToggle" Content="ToggleSwitch" HorizontalAlignment="Left" Margin="102,17,0,0" VerticalAlignment="Top" AccentMode="User" BorderBrush="#FF5F5F5F" AccentBrush="{DynamicResource DefaultColor}" Background="{x:Null}" ThumbBackground="#FF5F5F5F" Foreground="#FFB88259" ThumbAccentBrush="#FF191919" Height="20" ThumbBorderThickness="2" Width="45" MinWidth="45" MinHeight="20" FontSize="16" CornerRadius="15" Checked="dofToggle_Checked" Unchecked="dofToggle_Checked"/>
+                    <Grid x:Name="dofGrid" Height="388" Margin="0,42,0,0" VerticalAlignment="Top" IsEnabled="{Binding ElementName=dofToggle, Path=IsChecked}">
+                        <Label Content="DOF Far Blur" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox x:Name="r_dof_farBlurTextBox" Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,10,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farBlur, Mode=TwoWay, StringFormat=\{0:N2\},UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="53" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_farBlur" Margin="152,11,10,0" VerticalAlignment="Top" Maximum="10" Value="1.8" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Label Content="DOF Far Start" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,45,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farStart, Mode=TwoWay, StringFormat=\{0:N2\},UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" VerticalAlignment="Top" Width="53" FontSize="17" BorderBrush="{x:Null}"/>
+                        <Slider x:Name="r_dof_farStart" Margin="152,46,10,0" VerticalAlignment="Top" Maximum="7000" Value="1000" Minimum="-1000" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Label Content="DOF Far End" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="94,80,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_farEnd, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="53" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent" />
+                        <Slider x:Name="r_dof_farEnd" Margin="152,81,10,0" VerticalAlignment="Top" Maximum="7000" Value="7000" ValueChanged="DvarSlider_ValueChanged" Minimum="-1000"/>
+                        <Label Content="DOF Near Blur" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,118,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearBlur, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_nearBlur" Margin="162,119,10,0" VerticalAlignment="Top" Maximum="10" Value="4" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Label Content="DOF Near Start" HorizontalAlignment="Left" Margin="10,155,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,153,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearStart, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_nearStart" Margin="162,154,10,0" VerticalAlignment="Top" Maximum="1000" Value="10" ValueChanged="DvarSlider_ValueChanged" Minimum="-500"/>
+                        <Label Content="DOF Near End" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,188,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_nearEnd, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_nearEnd" Margin="162,189,10,0" VerticalAlignment="Top" Maximum="1000" Value="60" ValueChanged="DvarSlider_ValueChanged" Minimum="-500"/>
+                        <Separator HorizontalAlignment="Left" Height="7" Margin="9,108,0,0" VerticalAlignment="Top" Width="383" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                        <Label Content="DOF ViewModel Start" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="145,229,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_viewModelStart, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_viewModelStart" Margin="196,230,10,0" VerticalAlignment="Top" Maximum="128" Value="2" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Label Content="DOF ViewModel End" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="145,264,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_viewModelEnd, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_viewModelEnd" Margin="196,265,10,0" VerticalAlignment="Top" Maximum="128" Value="10" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Separator HorizontalAlignment="Left" Height="7" Margin="10,217,0,0" VerticalAlignment="Top" Width="383" Background="{DynamicResource DefaultBackgroundOpacity}"/>
+                        <Label Content="DOF Bias" HorizontalAlignment="Left" Margin="10,306,0,0" VerticalAlignment="Top" FontSize="17"/>
+                        <TextBox Grid.ColumnSpan="1" HorizontalAlignment="Left" Height="23" Margin="110,304,0,0" TextWrapping="Wrap" Text="{Binding Value, ElementName=r_dof_bias, StringFormat=\{0:N2\}, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp" MouseDoubleClick="TextBox_MouseDoubleClick" TextChanged="TextBox_TextChanged" VerticalAlignment="Top" Width="47" FontSize="17" Background="{DynamicResource DefaultBackground}" BorderBrush="Transparent"/>
+                        <Slider x:Name="r_dof_bias" Margin="162,305,10,0" VerticalAlignment="Top" Maximum="3" Value="0.5" Minimum="0.1" ValueChanged="DvarSlider_ValueChanged"/>
+                        <Button x:Name="resetDof" Content="Reset to default" Margin="13,354,206,0" VerticalAlignment="Top" Height="30" Background="{DynamicResource DefaultBackgroundOpacity}" Click="resetDof_Click" HorizontalAlignment="Center" Width="189" Foreground="{DynamicResource DefaultColor}"/>
+                        <Button x:Name="dof_ToCfg" Content="Add to CFG" Margin="209,354,11,0" VerticalAlignment="Top" Height="30"  Background="{DynamicResource DefaultBackgroundOpacity}" Click="dof_ToCfg_Click" HorizontalAlignment="Center" Width="188" Foreground="{DynamicResource DefaultColor}"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="WEAPON" Margin="2,0,-2,0" FontSize="15">
+                <Grid Background="{DynamicResource DefaultBackground}"/>
+            </TabItem>
+        </TabControl>
+        <Rectangle x:Name="Indicator" Fill="{DynamicResource DefaultColor}" HorizontalAlignment="Left" Height="3" Margin="17,28,0,0" VerticalAlignment="Top" Width="20" RadiusY="1.5" RadiusX="2"/>
 
-	</Grid>
+    </Grid>
 </Window>
